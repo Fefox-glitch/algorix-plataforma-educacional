@@ -1,0 +1,136 @@
+/* Variables de tema */
+:root {
+    --theme-switch-width: 64px;
+    --theme-switch-height: 32px;
+    --theme-switch-padding: 2px;
+    --theme-switch-toggle-size: 30px;
+}
+
+/* Switch de tema (snippet aplicado) */
+.theme-switcher {
+    position: relative;
+    width: var(--theme-switch-width);
+    height: var(--theme-switch-height);
+    background: #2f3742; /* track oscuro para resaltar el knob */
+    border-radius: calc(var(--theme-switch-height) / 2);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.theme-switch-inner {
+    width: var(--theme-switch-toggle-size);
+    height: var(--theme-switch-toggle-size);
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: var(--theme-switch-padding);
+    left: var(--theme-switch-padding);
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    z-index: 2; /* knob por encima de los iconos */
+}
+
+/* Iconos de tema */
+.theme-icon {
+    font-size: 16px;
+    line-height: 1;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    z-index: 1; /* debajo del knob para efecto de "icono dentro" */
+    pointer-events: none;
+    filter: drop-shadow(0 1px 0 rgba(0,0,0,0.15));
+}
+
+.light-icon {
+    right: 8px;
+    color: #fbbf24; /* dorado suave */
+}
+
+.dark-icon {
+    left: 8px;
+    color: #f59e0b; /* ámbar */
+}
+
+/* Estados del switch */
+[data-theme="light"] .theme-switch-inner {
+    transform: translateX(calc(var(--theme-switch-width) - var(--theme-switch-toggle-size) - (var(--theme-switch-padding) * 2)));
+}
+
+[data-theme="light"] .light-icon {
+    opacity: 1;
+    color: #fbbf24;
+}
+
+[data-theme="light"] .dark-icon {
+    opacity: 1;
+    color: #cbd5e1; /* desaturado en light */
+}
+
+[data-theme="dark"] .theme-switch-inner {
+    transform: translateX(0);
+    background-color: #ffffff; /* antes #1a1a1a, ahora visible en oscuro */
+}
+
+[data-theme="dark"] .dark-icon {
+    opacity: 1;
+    transform: translateX(0);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .light-icon {
+    opacity: 1;
+    transform: translateX(0);
+    color: #e5e7eb; /* tenue */
+}
+
+/* Colores del tema */
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --text-primary: #1a1a1a;
+    --text-secondary: #404040;
+    --border-color: #dee2e6;
+    --accent-color: #4CAF50;
+    --accent-hover: #45a049;
+    --link-color: #2563eb;
+    --heading-color: #1e40af;
+    --subtitle-color: #374151;
+
+    /* Fondo del body (modo claro) */
+    --app-bg: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #212529;
+    --bg-secondary: #343a40;
+    --text-primary: #f8f9fa;
+    --text-secondary: #ced4da;
+    --border-color: #495057;
+    --accent-color: #4CAF50;
+    --accent-hover: #45a049;
+
+    /* Fondo del body (modo oscuro) */
+    --app-bg: linear-gradient(135deg, #1a1c2c, #2a2d3e);
+}
+
+/* Mostrar ambos iconos siempre; solo cambia el color por tema */
+.theme-icon { opacity: 1; }
+
+[data-theme="light"] .dark-icon { color: #ffffff; }
+
+
+[data-theme="dark"] .light-icon { color: #000000a1; }
+
+
+
+
+/* Override del fondo del body usando variables por tema */
+body {
+    background: var(--app-bg);
+}

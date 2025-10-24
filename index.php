@@ -3,7 +3,7 @@ require_once __DIR__ . '/init.php';
 require_once __DIR__ . '/src/Utils/functions.php';
 require_once __DIR__ . '/autoload.php';
 require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/src/Controllers/TeacherController.php';
+// require_once __DIR__ . '/src/Controllers/TeacherController.php';
 
 use App\Controllers\TeacherController;
 
@@ -158,6 +158,16 @@ if ($path === '/admin/dashboard') {
     $content = render_view('admin/dashboard', ['name' => $name]);
     include __DIR__ . '/views/shared/layout.php';
     exit;
+}
+
+// Sirve estáticos de /styles directamente para evitar fallos del servidor embebido
+if (strpos($path, '/styles/') === 0) {
+    $cssPath = __DIR__ . $path;
+    if (file_exists($cssPath)) {
+        header('Content-Type: text/css; charset=utf-8');
+        readfile($cssPath);
+        exit;
+    }
 }
 
 // Static assets (cuando se usa php -S con docroot)

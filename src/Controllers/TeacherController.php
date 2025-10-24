@@ -6,8 +6,15 @@ require_once __DIR__ . '/../../config.php';
 class TeacherController {
     private function readJson($path) {
         if (!file_exists($path)) { return []; }
-        $raw = @file_get_contents($path);
-        if ($raw === false) { return []; }
+        $fp = @fopen($path, 'rb');
+        if (!$fp) { return []; }
+        $raw = '';
+        if (flock($fp, LOCK_SH)) {
+            $raw = stream_get_contents($fp) ?: '';
+            flock($fp, LOCK_UN);
+        }
+        fclose($fp);
+        if ($raw === '') { return []; }
         $j = json_decode($raw, true);
         return is_array($j) ? $j : [];
     }
@@ -15,7 +22,17 @@ class TeacherController {
     private function writeJson($path, $data) {
         $dir = dirname($path);
         if (!is_dir($dir)) { @mkdir($dir, 0777, true); }
-        @file_put_contents($path, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $tmp = $path . '.tmp';
+        $fp = @fopen($tmp, 'wb');
+        if (!$fp) { return; }
+        $payload = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if (flock($fp, LOCK_EX)) {
+            fwrite($fp, $payload);
+            fflush($fp);
+            flock($fp, LOCK_UN);
+        }
+        fclose($fp);
+        @rename($tmp, $path);
     }
 
     private function supabaseAvailable() {

@@ -151,3 +151,29 @@ function redirect($path = '') {
     exit;
 }
 
+function checkCsrfToken(): void {
+    $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+    if ($method === 'GET') { return; }
+    $token = $_POST['csrf_token'] ?? ($_GET['csrf_token'] ?? '');
+    if (class_exists('App\\Core\\Security')) {
+        if (!\App\Core\Security::verifyCsrfToken($token)) {
+            http_response_code(403);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'invalid_csrf'], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+    } else {
+        if ($token === '' || ($token !== ($_SESSION['csrf_token'] ?? ''))) {
+            http_response_code(403);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'invalid_csrf'], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+    }
+}
+
+$__req_method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+if ($__req_method !== 'GET') {
+    checkCsrfToken();
+}
+

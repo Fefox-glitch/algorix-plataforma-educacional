@@ -1,0 +1,154 @@
+.auth-screen {
+    max-width: 480px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--bg-primary);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+    color: var(--text-secondary);
+}
+
+.welcome-notice {
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.welcome-notice h4 {
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.welcome-notice p {
+    margin: 0.5rem 0;
+}
+
+.codes-info {
+    font-size: 0.9rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-top: 0.75rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.role-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.role-option {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.role-option:hover {
+    border-color: var(--accent-color);
+}
+
+.role-option.selected {
+    border-color: var(--accent-color);
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--friendly-color);
+    transform: scale(1.05);
+}
+
+.role-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.role-name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    font-size: 16px;
+}
+
+.role-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.btn-full {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 8px;
+}
+
+.forgot-password {
+    text-align: right;
+    margin: -0.5rem 0 1rem;
+}
+
+.forgot-password a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .auth-screen {
+        max-width: 100%;
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+    
+    .role-selector {
+        grid-template-columns: 1fr;
+    }
+}

@@ -22,19 +22,14 @@ class ComputerControlService {
     }
     
     /**
-     * Realiza un ping seguro a una dirección IP
+     * Realiza un "ping" sin usar exec: prueba puertos comunes vía sockets
      */
     private function safePing($ip) {
-        $ipArg = escapeshellarg($ip);
-        if (stripos(PHP_OS, 'WIN') === 0) {
-            $cmd = "ping -n 1 -w 1000 $ipArg";
-        } else {
-            $cmd = "ping -c 1 -W 1 $ipArg";
+        $ports = [80, 443, 22, 3389]; // HTTP/HTTPS/SSH/RDP
+        foreach ($ports as $p) {
+            if ($this->checkPortOpen($ip, $p, 1)) { return true; }
         }
-        $output = [];
-        $returnVar = 1;
-        @exec($cmd, $output, $returnVar);
-        return $returnVar === 0;
+        return false;
     }
     
     /**

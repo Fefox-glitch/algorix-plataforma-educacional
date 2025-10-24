@@ -1,61 +1,211 @@
-name: CI/CD Pipeline
+name: PHP CI
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  test:
+  php-lint-and-smoke:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16.x'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Run tests
-      run: npm test
-      
-    - name: Upload coverage
-      uses: codecov/codecov-action@v2
-      
-  lint:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: curl
+          tools: composer
+
+      - name: Validate composer
+        run: composer validate --no-interaction
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: PHP lint (syntax)
+        shell: bash
+        run: |
+          set -e
+          for f in $(git ls-files '*.php'); do
+            php -l "$f" || exit 1;
+          done
+
+      - name: Run PHPCS (PSR12)
+        run: |
+          if [ -f phpcs.xml ]; then vendor/bin/phpcs --standard=phpcs.xml; else vendor/bin/phpcs -q --standard=PSR12 src; fi
+
+      - name: Run PHPStan (level from config)
+        run: |
+          if [ -f phpstan.neon ]; then vendor/bin/phpstan analyse; else vendor/bin/phpstan analyse src --level=4; fi
+
+      - name: Run PHPUnit
+        run: |
+          if [ -f phpunit.xml ] || [ -f phpunit.xml.dist ]; then vendor/bin/phpunit; else vendor/bin/phpunit --testsuite default; fi
+
+      - name: Start PHP dev server
+        shell: bash
+        run: |
+          php -S 0.0.0.0:8000 -t public >/dev/null 2>&1 &
+          echo $! > /tmp/php_server_pid
+          sleep 3
+
+      - name: Run smoke tests
+        run: php tests/smoke_routes.php
+
+      - name: Stop PHP dev server
+        if: always()
+        shell: bash
+        run: |
+          kill "$(cat /tmp/php_server_pid)" || true
+
+  build-artifact:
     runs-on: ubuntu-latest
-    
+    needs: php-lint-and-smoke
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16.x'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Run ESLint
-      run: npm run lint
-      
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: curl
+          tools: composer
+
+      - name: Install production dependencies
+        run: |
+          composer install --no-dev --no-interaction --no-progress --prefer-dist
+          composer dump-autoload -o
+
+      - name: Prepare release folder
+        shell: bash
+        run: |
+          set -e
+          mkdir -p release/algorix
+          cp -r public release/algorix/
+          cp -r src release/algorix/
+          cp -r views release/algorix/
+          cp -r vendor release/algorix/
+          cp -r assets release/algorix/
+          cp -r js release/algorix/
+          cp -r styles release/algorix/
+          cp index.php init.php autoload.php config.php router.php .htaccess .env.example release/algorix/ 2>/dev/null || true
+          # Limpiar elementos que no deben ir a producción
+          rm -rf release/algorix/tests || true
+          rm -rf release/algorix/docker || true
+          rm -f  release/algorix/phpunit.xml* || true
+          rm -f  release/algorix/phpstan.* || true
+          rm -f  release/algorix/phpcs.xml || true
+
+      - name: Create zip artifact
+        shell: bash
+        run: |
+          cd release
+          zip -r "algorix-${GITHUB_SHA}.zip" algorix
+
+      - name: Generate ZIP checksum
+        shell: bash
+        run: |
+          cd release
+          sha256sum "algorix-${GITHUB_SHA}.zip" > "algorix-${GITHUB_SHA}.zip.sha256"
+          cat "algorix-${GITHUB_SHA}.zip.sha256"
+
+      - name: Upload artifact (ZIP)
+        uses: actions/upload-artifact@v4
+        with:
+          name: algorix_build
+          path: release/algorix-*.zip
+          if-no-files-found: error
+
+      - name: Upload artifact (ZIP checksum)
+        uses: actions/upload-artifact@v4
+        with:
+          name: algorix_build_checksum
+          path: release/algorix-*.zip.sha256
+          if-no-files-found: error
+
+  build-docker-artifact:
+    runs-on: ubuntu-latest
+    needs: php-lint-and-smoke
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (cached)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: algorix:${{ github.sha }}
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Save and compress Docker image
+        shell: bash
+        run: |
+          docker save algorix:${GITHUB_SHA} | gzip > algorix-image-${GITHUB_SHA}.tar.gz
+          ls -lh algorix-image-${GITHUB_SHA}.tar.gz
+
+      - name: Generate Docker image checksum
+        shell: bash
+        run: |
+          sha256sum "algorix-image-${GITHUB_SHA}.tar.gz" > "algorix-image-${GITHUB_SHA}.tar.gz.sha256"
+          cat "algorix-image-${GITHUB_SHA}.tar.gz.sha256"
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: algorix_docker_image
+          path: algorix-image-*.tar.gz
+          if-no-files-found: error
+
+      - name: Upload Docker image checksum
+        uses: actions/upload-artifact@v4
+        with:
+          name: algorix_docker_image_checksum
+          path: algorix-image-*.tar.gz.sha256
+          if-no-files-found: error
+
   deploy:
-    needs: [test, lint]
     runs-on: ubuntu-latest
+    needs: [php-lint-and-smoke, build-artifact, build-docker-artifact]
     if: github.ref == 'refs/heads/main'
-    
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Deploy to production
-      uses: netlify/actions/cli@master
-      with:
-        args: deploy --prod
-      env:
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Conditional deploy by target
+        shell: bash
+        run: |
+          target="${{ vars.DEPLOY_TARGET }}"
+          echo "Deploy target: $target"
+          if [ -z "$target" ] || [ "$target" = "none" ]; then
+            echo "No deploy target configured. Skipping."; exit 0;
+          fi
+          case "$target" in
+            heroku)
+              echo "Heroku deploy requires HEROKU_API_KEY and HEROKU_APP."; exit 0;
+              ;;
+            flyio)
+              echo "Fly.io deploy requires FLY_API_TOKEN and fly.toml."; exit 0;
+              ;;
+            digitalocean)
+              echo "DigitalOcean App Platform setup required."; exit 0;
+              ;;
+            vercel)
+              echo "Vercel PHP builder requires vercel.json and token."; exit 0;
+              ;;
+            container)
+              echo "Container deploy requires REGISTRY, IMAGE_NAME, and auth."; exit 0;
+              ;;
+            *)
+              echo "Unknown deploy target: $target"; exit 1;
+              ;;
+          esac

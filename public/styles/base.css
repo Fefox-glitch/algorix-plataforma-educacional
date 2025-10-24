@@ -1,0 +1,280 @@
+/* Variables CSS y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colores principales */
+    --primary-color: #4f46e5;
+    --secondary-color: #7c3aed;
+    --accent-color: #06b6d4;
+    --friendly-color: #10b981;
+    
+    /* Paleta unificada para componentes */
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-rgb: 37, 99, 235;
+    --friendly: #10b981;
+    --friendly-dark: #059669;
+    --friendly-rgb: 16, 185, 129;
+    --success: #22c55e;
+    --success-dark: #16a34a;
+    --success-rgb: 34, 197, 94;
+    --warning: #f59e0b;
+    --warning-dark: #d97706;
+    --warning-rgb: 245, 158, 11;
+    --error: #ef4444;
+    --error-dark: #dc2626;
+    --error-rgb: 239, 68, 68;
+    
+    /* Estados y notificaciones */
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --warning-color: #f59e0b;
+    
+    /* Fondos y textos */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-hover: #f1f5f9;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text: #1f2937;
+    
+    /* Roles */
+    --student-color: #0ea5e9;
+    --student-text: #0b1322;
+    --teacher-color: #8b5cf6;
+    --teacher-text: #0b1322;
+    --admin-color: #f43f5e;
+    --admin-text: #0b1322;
+    
+    /* Bordes y sombras */
+    --border-color: #e5e7eb;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    
+    /* Superficies y entradas */
+    --surface-dark: #ffffff;
+    --border-dark: #cbd5e1;
+    --background-dark: #ffffff;
+    --primary-light: rgba(37, 99, 235, 0.2);
+    
+    /* Notificaciones detalladas */
+    --error-bg: rgba(239, 68, 68, 0.12);
+    --error-text: #b91c1c;
+    --error-border: rgba(239, 68, 68, 0.35);
+    --success-bg: rgba(16, 185, 129, 0.1);
+    --success-text: #065f46;
+    --success-border: rgba(16, 185, 129, 0.35);
+    
+    /* Radios y transiciones */
+    --radius: 12px;
+    --radius-lg: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+    /* Ajustes para modo oscuro */
+    --bg-primary: #0b1220;
+    --bg-secondary: #0f172a;
+    --bg-hover: #101827;
+    --text-primary: #e5e7eb;
+    --text-secondary: #94a3b8;
+    --text: #f9fafb;
+
+    --student-text: #cbd5e1;
+    --teacher-text: #e9d5ff;
+    --admin-text: #fecdd3;
+
+    --border-color: #1f2937;
+
+    --primary-color: #3b82f6;
+    --friendly-color: #34d399;
+    --accent-color: #22d3ee;
+
+    /* Paleta unificada para componentes modo oscuro */
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --primary-rgb: 59, 130, 246;
+    --friendly: #10b981;
+    --friendly-dark: #059669;
+    --friendly-rgb: 16, 185, 129;
+    --success: #34d399;
+    --success-dark: #22c55e;
+    --success-rgb: 52, 211, 153;
+    --warning: #f59e0b;
+    --warning-dark: #d97706;
+    --warning-rgb: 245, 158, 11;
+    --error: #f87171;
+    --error-dark: #ef4444;
+    --error-rgb: 248, 113, 113;
+
+    --surface-dark: #0f172a;
+    --border-dark: #334155;
+    --background-dark: #0b1220;
+    --primary-light: rgba(59, 130, 246, 0.25);
+
+    --error-bg: rgba(248, 113, 113, 0.15);
+    --error-text: #fca5a5;
+    --error-border: rgba(248, 113, 113, 0.35);
+    --success-bg: rgba(34, 197, 94, 0.15);
+    --success-text: #a7f3d0;
+    --success-border: rgba(34, 197, 94, 0.35);
+}
+
+body {
+    font-family: 'Comic Neue', 'Inter', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    line-height: 1.6;
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* Layout Principal */
+.app-container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+}
+
+.main-header {
+    background: var(--bg-primary);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-color), var(--friendly-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.institution-name {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.friendly-badge {
+    background: linear-gradient(135deg, var(--friendly-color), #059669);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Theme Switcher: reglas centralizadas en styles/theme-switcher.css */
+/* Bloque duplicado retirado para evitar solapamientos. */
+
+/* Pantalla del Juego Base */
+.game-screen {
+    background: var(--bg-primary);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: none;
+    border: 1px solid var(--border-color);
+}
+
+.game-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--friendly-color));
+    color: white;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.role-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.student-badge { background: var(--success-color); }
+.teacher-badge { background: var(--warning-color); }
+.admin-badge { background: var(--error-color); }
+
+.game-content {
+    display: flex;
+    min-height: 85vh;
+    gap: 24px;
+}
+
+/* Área Principal */
+.main-area {
+    flex: 1;
+    min-width: 0;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(100%); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+@keyframes thinkingBounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+@keyframes loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}

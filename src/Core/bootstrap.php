@@ -45,3 +45,15 @@ if (class_exists('\\App\\Core\\Logger')) {
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
 header('X-XSS-Protection: 1; mode=block');
+
+// Endurecer seguridad: CSP y políticas modernas
+$scriptSrc = "'self' 'unsafe-inline'"; // inline handlers presentes en vistas
+$styleSrc = "'self' 'unsafe-inline'";
+$imgSrc = "'self' data:";
+$connectSrc = "'self' https:"; // fetch a APIs y supabase
+$csp = "default-src 'self'; script-src $scriptSrc; style-src $styleSrc; img-src $imgSrc; connect-src $connectSrc; base-uri 'self'; frame-ancestors 'self'";
+header('Content-Security-Policy: ' . $csp);
+header('Referrer-Policy: no-referrer');
+header('Permissions-Policy: camera=(), microphone=(), geolocation=(), fullscreen=(self)');
+header('Cross-Origin-Opener-Policy: same-origin');
+header('Cross-Origin-Resource-Policy: same-origin');

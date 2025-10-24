@@ -1,0 +1,181 @@
+/* Theme Variables */
+:root {
+    /* Light Theme (default) */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --accent-color: #4CAF50;
+    --accent-hover: #45a049;
+    --border-color: #dee2e6;
+    --card-bg: #ffffff;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --accent-color: #4CAF50;
+    --accent-hover: #45a049;
+    --border-color: #404040;
+    --card-bg: #333333;
+    --error-color: #ff6b6b;
+    --success-color: #51cf66;
+    --warning-color: #ffd43b;
+    --success-rgb: 16, 185, 129;
+    --error: #ef4444;
+    --error-dark: #dc2626;
+    --error-rgb: 239, 68, 68;
+    --warning: #f59e0b;
+    --warning-dark: #d97706;
+    --warning-rgb: 245, 158, 11;
+
+    /* Background and Surface Colors */
+    --background-dark: #0a0f1a;
+    --surface-dark: #111827;
+    --surface-hover: #1f2937;
+    --surface-active: #374151;
+
+    /* Text Colors */
+    --text: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-tertiary: #6b7280;
+    --text-disabled: #4b5563;
+
+    /* Border Colors */
+    --border-dark: #1f2937;
+    --border-hover: #374151;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    --gradient-friendly: linear-gradient(135deg, var(--friendly), var(--friendly-dark));
+    --gradient-success: linear-gradient(135deg, var(--success), var(--success-dark));
+    --gradient-error: linear-gradient(135deg, var(--error), var(--error-dark));
+    --gradient-warning: linear-gradient(135deg, var(--warning), var(--warning-dark));
+    --disabled-gradient: linear-gradient(135deg, #4b5563, #374151);
+
+    /* Layout */
+    --radius: 12px;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Auth Screen */
+.auth-screen {
+    background: var(--surface-dark);
+    padding: 40px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 500px;
+    margin: 50px auto;
+    text-align: center;
+    border: 2px solid var(--border-dark);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.auth-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--friendly));
+}
+
+.auth-header {
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1), rgba(var(--friendly-rgb), 0.1));
+    margin: -40px -40px 30px;
+    padding: 40px;
+    border-bottom: 2px solid var(--border-dark);
+}
+
+.auth-title {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--friendly));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+}
+
+.auth-subtitle {
+    color: var(--text-secondary);
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+/* Welcome Notice */
+.welcome-notice {
+    background: rgba(var(--friendly-rgb), 0.1);
+    border: 2px solid rgba(var(--friendly-rgb), 0.2);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: left;
+    color: var(--text);
+}
+
+.welcome-notice h4 {
+    color: var(--friendly);
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+/* Dark Theme */
+body {
+    font-family: 'Comic Neue', 'Inter', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1a1c2c, #2a2d3e);
+    min-height: 100vh;
+    line-height: 1.6;
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* Main Header */
+.main-header {
+    background: linear-gradient(90deg, var(--primary), var(--accent-color), var(--friendly));
+    border-radius: 9999px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid var(--border-dark);
+}
+
+/* Logo */
+.logo {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--friendly));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.friendly-badge {
+    background: var(--gradient-friendly);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.institution-name {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}

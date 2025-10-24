@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../config.php';
+namespace App\Controllers;
 
 class AdminController {
     private function json($status, $data = null, $error = null) {

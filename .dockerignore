@@ -1,0 +1,56 @@
+# VCS and CI
+.git
+.github
+.vscode
+.gitignore
+
+# Docker and Compose
+Dockerfile
+docker/
+docker-compose.yml
+
+# Tests and developer tooling
+/tests/
+/phpunit.xml*
+/phpstan.*
+/phpcs.xml
+
+# Documentation and previews
+/docs/
+/preview/
+
+# Database, scripts, and migrations not needed in runtime image
+/database/
+/scripts/
+/supabase/
+
+# Build artifacts
+/release/
+/algorix-image-*.tar.gz
+/algorix-image-*.tar.gz.sha256
+/algorix-*.zip
+/algorix-*.zip.sha256
+
+# Logs and temp
+/logs/
+/storage/*.tmp
+
+# Misc & local env
+cookie.txt
+phpinfo.php
+test-connection.php
+
+# Node-related (if any)
+/node_modules/
+
+# Env files (keep example only)
+.env
+.env.local
+.env.*
+!.env.example
+
+# Nested duplicate folder (avoid copying)
+/Algorix-main/
+
+# Vendor will be installed in image
+/vendor/
