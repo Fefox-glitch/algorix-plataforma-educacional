@@ -1,0 +1,56 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Live Server",
+            "type": "shell",
+            "command": "echo",
+            "args": ["🚀 Para usar Live Server: 1) Instala extensión 'Live Server' en VSCode, 2) Clic derecho en index.html → 'Open with Live Server'"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Start HTTP Server",
+            "type": "shell",
+            "command": "python",
+            "args": ["-m", "http.server", "8080"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new"
+            },
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "label": "Start Node HTTP Server",
+            "type": "shell",
+            "command": "npx",
+            "args": ["http-server", "-p", "8080", "-c-1"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new"
+            },
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+{
+    "AI_ENDPOINT": "https://oi-server.onrender.com/chat/completions",
+    "AI_MODEL": "openrouter/claude-sonnet-4",
+    "AI_TOKEN": "",
+    "AI_CUSTOMER_ID": "",
+    "OFFLINE_MODE": "false"
+}

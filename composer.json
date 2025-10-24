@@ -1,0 +1,22 @@
+{
+    "name": "tu/algorix",
+    "description": "Aplicación Algorix",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        },
+        "files": [
+            "src/Utils/functions.php",
+            "src/Core/router.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}

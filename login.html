@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Algorix - Plataforma educativa para aprender programación de forma interactiva y divertida">
+    <meta name="keywords" content="programación, educación, algoritmos, aprendizaje, coding">
+    <meta name="author" content="Algorix">
+    <meta name="theme-color" content="#4CAF50">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Algorix">
+    <meta property="og:description" content="Aprende programación de forma interactiva y divertida">
+    <meta property="og:image" content="/assets/logo.svg">
+    
+    <title>Iniciar Sesión - Algorix</title>
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/typography.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/ui.css">
+    <link rel="stylesheet" href="/styles/forms.css">
+    <link rel="stylesheet" href="/styles/auth.css">
+    <link rel="stylesheet" href="/styles/role-selector.css">
+    <link rel="stylesheet" href="/styles/responsive.css">
+    <link rel="stylesheet" href="/styles/home.css">
+    <link rel="stylesheet" href="/styles/error.css">
+    <link rel="stylesheet" href="/styles/header.css">
+    <link rel="stylesheet" href="/styles/theme-switcher.css">
+    
+        
+    <!-- Scripts - Removed JS dependencies -->
+</head>
+<body data-theme="light">
+        <!-- Header -->
+    <div class="app-container">
+    <!-- Global Header -->
+    <header class="main-header">
+        <div class="logo-section">
+            <div class="logo">Algorix</div>
+            <div class="friendly-badge">Sistema Completo</div>
+            <div class="institution-name">Plataforma Educativa Avanzada</div>
+        </div>
+        <div class="header-controls" style="display: flex; align-items: center; gap: 15px;">
+                        <div class="theme-switcher" id="themeSwitch">
+                <span class="theme-switch-inner"></span>
+                <span class="theme-icon light-icon">☀️</span>
+                <span class="theme-icon dark-icon">🌙</span>
+            </div>
+            <button class="btn btn-secondary" onclick="showHelp()" id="helpButton">Ayuda</button>
+                    </div>
+    </header>
+</div>
+
+<!-- Modal de Ayuda -->
+<div id="helpModal" class="modal" aria-hidden="true" style="display:none">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Centro de Ayuda</h2>
+            <button type="button" class="modal-close" aria-label="Cerrar">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="help-section">
+                <h3>🎯 Primeros Pasos</h3>
+                <ul>
+                    <li>Registra una cuenta para comenzar</li>
+                    <li>Selecciona tu rol (Estudiante, Profesor o Director)</li>
+                    <li>Explora los cursos disponibles</li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h3>🎮 Características</h3>
+                <ul>
+                    <li>Aprende programación con ejercicios interactivos</li>
+                    <li>Gana puntos y desbloquea logros</li>
+                    <li>Sigue tu progreso en tiempo real</li>
+                </ul>
+            </div>
+            <div class="help-section">
+                <h3>📞 Soporte</h3>
+                <p>¿Necesitas ayuda adicional? Contáctanos en:</p>
+                <a href="mailto:soporte@algorix.edu" class="support-link">soporte@algorix.edu</a>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Contenido principal -->
+    <div class="main-container">
+        <div class="auth-screen">
+    <div class="auth-header">
+        <h2 class="auth-title" id="authTitle">¡Hola! 👋</h2>
+        <p class="auth-subtitle">Vamos a aprender programación de forma divertida</p>
+    </div>
+
+    <div class="welcome-notice">
+        <h4>🌟 ¡Bienvenido a tu aventura de programación!</h4>
+        <p>Aquí aprenderás paso a paso, sin prisa y con mucha diversión.</p>
+        <p class="codes-info"><strong>Para profesores:</strong> TEACH2024A1 | <strong>Para administradores:</strong> ADMIN2024B1</p>
+    </div>
+    
+    <!-- Login Form -->
+    <div id="loginForm">
+        <form action="/auth/login" method="POST">
+                        <input type="hidden" name="csrf_token" value="4f7e4381a63494b59ae8d7e91192938843b0a0c5743ba7191926956065a53bb1">
+            <div class="form-group">
+                <label class="form-label">Tu email:</label>
+                <input type="email" name="email" class="form-input" placeholder="ejemplo@colegio.edu" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Tu contraseña:</label>
+                <input type="password" name="password" class="form-input" placeholder="••••••••" required>
+            </div>
+            <div class="forgot-password">
+                <a href="/auth/recover">¿Olvidaste tu contraseña?</a>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">🚀 ¡Empezar!</button>
+        </form>
+        <a href="/auth/register" class="btn btn-secondary btn-full">Crear cuenta nueva</a>
+    </div>
+
+    </div>    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2025 Algorix. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+    // Comportamiento del Centro de Ayuda (abrir/cerrar)
+    (function() {
+        var modal = document.getElementById('helpModal');
+        var openBtn = document.getElementById('helpButton');
+        var closeBtn = modal ? modal.querySelector('.modal-close') : null;
+
+        function openModal() {
+            if (!modal) return;
+            modal.style.display = 'flex';
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            if (!modal) return;
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        if (openBtn) {
+            openBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openModal();
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeModal();
+            });
+        }
+
+        if (modal) {
+            // Cerrar al hacer click fuera del contenido
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Cerrar con la tecla Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display !== 'none') {
+                    closeModal();
+                }
+            });
+        }
+
+        // Exponer función global para botón inline
+        window.showHelp = openModal;
+    })();
+
+    // Lógica de cambio de tema (light/dark)
+    (function() {
+        var themeSwitch = document.getElementById('themeSwitch');
+        var applyTheme = function(theme) {
+            document.body.setAttribute('data-theme', theme);
+            if (themeSwitch) {
+                if (theme === 'dark') {
+                    themeSwitch.classList.add('dark');
+                } else {
+                    themeSwitch.classList.remove('dark');
+                }
+            }
+            try { localStorage.setItem('theme', theme); } catch (e) {}
+        };
+
+        // Aplicar tema guardado
+        try {
+            var saved = localStorage.getItem('theme');
+            if (saved) applyTheme(saved);
+        } catch (e) {}
+
+        // Toggle al hacer clic
+        if (themeSwitch) {
+            themeSwitch.addEventListener('click', function() {
+                var current = document.body.getAttribute('data-theme') || 'light';
+                applyTheme(current === 'light' ? 'dark' : 'light');
+            });
+        }
+
+        // Exponer función global para inline onclick
+        window.toggleTheme = function() {
+            var current = document.body.getAttribute('data-theme') || 'light';
+            applyTheme(current === 'light' ? 'dark' : 'light');
+        };
+    })();
+    </script>
+    <script>
+      window.CSRF_TOKEN = '4f7e4381a63494b59ae8d7e91192938843b0a0c5743ba7191926956065a53bb1';
+    </script>
+    </body>
+</html>

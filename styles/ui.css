@@ -1,0 +1,111 @@
+/* UI components that are not buttons, forms, or specific views */
+.badge {
+    display: inline-block;
+    background: var(--friendly-color);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+.subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+
+/* Variables globales */
+:root {
+    /* Colores base (modo claro por defecto) */
+    --primary: #2563eb;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --background: #ffffff;
+    --card-bg: #ffffff;
+    --surface: #ffffff;
+    --text: #1f2937;
+    --text-secondary: #6b7280;
+    --border: rgba(0, 0, 0, 0.1);
+    
+    /* Elementos específicos */
+    --input-bg: #ffffff;
+    --button-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    --button-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    
+    /* Fondos y degradados */
+    --bg-gradient: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+    --card-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
+    
+    /* Efectos */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    /* Efectos */
+    --radius: 0.75rem;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --transition: all 0.2s ease;
+    
+    /* Gradientes */
+    --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    --gradient-success: linear-gradient(135deg, #16a34a 0%, #0f766e 100%);
+    --gradient-bg: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+/* Temas */
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0b1220;
+    --bg-secondary: #0f172a;
+    --text-primary: #e5e7eb;
+    --text-secondary: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --bg-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    --card-gradient: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+}
+
+/* Sistema de ayuda */
+.help-tooltip {
+    position: absolute;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--text-primary);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    max-width: 250px;
+}
+
+.help-mode [data-help] {
+    outline: 2px dashed var(--primary-color);
+    cursor: help;
+}
+
+/* Animaciones */
+.help-tooltip {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

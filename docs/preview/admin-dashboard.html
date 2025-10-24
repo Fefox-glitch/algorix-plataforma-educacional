@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preview Admin Dashboard - Algorix</title>
+  <!-- Estilos base -->
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/typography.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/ui.css" />
+  <link rel="stylesheet" href="/styles/forms.css" />
+  <link rel="stylesheet" href="/styles/header.css" />
+  <link rel="stylesheet" href="/styles/theme-switcher.css" />
+  <link rel="stylesheet" href="/styles/admin.css" />
+</head>
+<body data-theme="light" style="padding:20px;">
+  <div class="app-container">
+    <header class="main-header">
+      <div class="logo-section">
+        <div class="logo">Algorix</div>
+        <div class="friendly-badge">Sistema Completo</div>
+        <div class="institution-name">Plataforma Educativa Avanzada</div>
+      </div>
+      <div class="header-controls" style="display:flex;align-items:center;gap:15px;">
+        <div class="user-info">
+          <span class="role-badge admin-badge">ADMIN</span>
+          <span class="welcome-text">Bienvenido, Administrador</span>
+        </div>
+        <div class="theme-switcher" id="themeSwitch">
+          <span class="theme-switch-inner"></span>
+          <span class="theme-icon light-icon">☀️</span>
+          <span class="theme-icon dark-icon">🌙</span>
+        </div>
+        <button class="btn btn-secondary" onclick="alert('Centro de ayuda (preview)');">Ayuda</button>
+      </div>
+    </header>
+  </div>
+
+  <div class="admin-container">
+    <main class="admin-content">
+      <section id="advanced-control" class="advanced-control">
+        <div class="advanced-header">
+          <span class="dot"></span>
+          <h1>Panel de Control Avanzado</h1>
+        </div>
+        <div class="advanced-grid">
+          <button class="panel-card green" data-panel="usuarios" onclick="showAdminPanel('usuarios')">
+            <div class="panel-title">Gestión de Usuarios</div>
+            <div class="panel-desc">Administra estudiantes y profesores</div>
+            <div class="panel-icon">👥</div>
+          </button>
+          <button class="panel-card purple" data-panel="analytics" onclick="showAdminPanel('analytics')">
+            <div class="panel-title">Analytics Avanzado</div>
+            <div class="panel-desc">Métricas detalladas de rendimiento</div>
+            <div class="panel-icon">📈</div>
+          </button>
+          <button class="panel-card blue" data-panel="notas" onclick="showAdminPanel('notas')">
+            <div class="panel-title">Sistema de Notas</div>
+            <div class="panel-desc">Calificaciones y reportes</div>
+            <div class="panel-icon">🧮</div>
+          </button>
+          <button class="panel-card gold" data-panel="exportacion" onclick="showAdminPanel('exportacion')">
+            <div class="panel-title">Centro de Exportación</div>
+            <div class="panel-desc">CSV, PDF y más</div>
+            <div class="panel-icon">🗂️</div>
+          </button>
+          <button class="panel-card dashed" data-panel="configuracion" onclick="showAdminPanel('configuracion')">
+            <div class="panel-title">Configuración</div>
+            <div class="panel-desc">Preferencias del panel</div>
+            <div class="panel-icon">⚙️</div>
+          </button>
+          <button class="panel-card gold" data-panel="codigos" onclick="showAdminPanel('codigos')">
+            <div class="panel-title">Gestión de Códigos</div>
+            <div class="panel-desc">Ejercicios y retos</div>
+            <div class="panel-icon">🧩</div>
+          </button>
+          <button class="panel-card teal" data-panel="comunicacion" onclick="showAdminPanel('comunicacion')">
+            <div class="panel-title">Comunicación</div>
+            <div class="panel-desc">Anuncios y mensajes</div>
+            <div class="panel-icon">💬</div>
+          </button>
+          <button class="panel-card magenta" data-panel="analytics-ia" onclick="showAdminPanel('analytics-ia')">
+            <div class="panel-title">Analytics IA</div>
+            <div class="panel-desc">Insights asistidos</div>
+            <div class="panel-icon">🤖</div>
+          </button>
+          <button class="panel-card magenta" data-panel="codigo-inicio" onclick="showAdminPanel('codigo-inicio')">
+            <div class="panel-title">Código de Inicio</div>
+            <div class="panel-desc">Códigos especiales de registro</div>
+            <div class="panel-icon">🔑</div>
+          </button>
+
+          <!-- Opciones principales integradas como tarjetas en el Panel Avanzado (Preview) -->
+          <button class="panel-card teal" data-go="overview" onclick="goAdminSection('overview')">
+            <div class="panel-title">Resumen General</div>
+            <div class="panel-desc">Estado general del sistema</div>
+            <div class="panel-icon">📊</div>
+          </button>
+
+          <button class="panel-card blue" data-go="labs" onclick="goAdminSection('labs')">
+            <div class="panel-title">Laboratorios</div>
+            <div class="panel-desc">Gestiona laboratorios</div>
+            <div class="panel-icon">🖥️</div>
+          </button>
+
+          <button class="panel-card green" data-go="computers" onclick="goAdminSection('computers')">
+            <div class="panel-title">Computadoras</div>
+            <div class="panel-desc">Equipos y estados</div>
+            <div class="panel-icon">💻</div>
+          </button>
+
+          <button class="panel-card purple" data-go="groups" onclick="goAdminSection('groups')">
+            <div class="panel-title">Grupos</div>
+            <div class="panel-desc">Agrupaciones activas</div>
+            <div class="panel-icon">👥</div>
+          </button>
+
+          <button class="panel-card purple" data-go="teachers" onclick="goAdminSection('teachers')">
+            <div class="panel-title">Profesores</div>
+            <div class="panel-desc">Registro y asignaciones</div>
+            <div class="panel-icon">👨‍🏫</div>
+          </button>
+
+          <button class="panel-card gold" data-go="actions" onclick="goAdminSection('actions')">
+            <div class="panel-title">Acciones</div>
+            <div class="panel-desc">Operaciones masivas</div>
+            <div class="panel-icon">⚡</div>
+          </button>
+
+          <button class="panel-card magenta" data-go="sessions" onclick="goAdminSection('sessions')">
+            <div class="panel-title">Sesiones</div>
+            <div class="panel-desc">Historial y estado</div>
+            <div class="panel-icon">📅</div>
+          </button>
+        </div>
+      </section>
+
+      <!-- Secciones del resumen con métricas -->
+      <section id="overview" class="section">
+        <div class="section-header"><h1>Resumen General del Sistema</h1></div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">🖥️</div>
+            <div class="stat-info">
+              <div class="stat-value" id="total-labs">0</div>
+              <div class="stat-label">Laboratorios</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💻</div>
+            <div class="stat-info">
+              <div class="stat-value" id="total-computers">0</div>
+              <div class="stat-label">Computadoras</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-info">
+              <div class="stat-value" id="online-computers">0</div>
+              <div class="stat-label">En Línea</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-info">
+              <div class="stat-value" id="total-groups">0</div>
+              <div class="stat-label">Grupos Activos</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header"><h2>Estado de Computadoras por Laboratorio</h2></div>
+        <div id="labs-status-container" class="labs-status"></div>
+
+        <div class="section-header"><h2>Sesiones Activas</h2></div>
+        <div id="active-sessions-container" class="sessions-list"></div>
+      </section>
+
+      <section id="labs" class="section" style="display:none;">
+        <div class="section-header"><h1>Laboratorios</h1></div>
+        <p class="section-desc">Contenido de ejemplo (Preview).</p>
+      </section>
+      <section id="computers" class="section" style="display:none;">
+        <div class="section-header"><h1>Computadoras</h1></div>
+        <p class="section-desc">Contenido de ejemplo (Preview).</p>
+      </section>
+      <section id="groups" class="section" style="display:none;">
+        <div class="section-header"><h1>Grupos</h1></div>
+        <p class="section-desc">Contenido de ejemplo (Preview).</p>
+      </section>
+      <section id="teachers" class="section" style="display:none;">
+        <div class="section-header"><h1>Profesores</h1></div>
+        <p class="section-desc">Contenido de ejemplo (Preview).</p>
+      </section>
+      <section id="actions" class="section" style="display:none;">
+        <div class="section-header"><h1>Acciones</h1></div>
+        <p class="section-desc">Contenido de ejemplo (Preview).</p>
+      </section>
+      <section id="sessions" class="section" style="display:none;">
+        <div class="section-header"><h1>Sesiones</h1></div>
+        <div id="sessions-section-container"></div>
+      </section>
+
+      <!-- Paneles dedicados del Panel Avanzado -->
+      <section id="panel-usuarios" class="section" style="display:none;">
+        <div class="section-header"><h1>Gestión de Usuarios</h1></div>
+        <div id="users-panel-container"></div>
+      </section>
+
+      <section id="panel-analytics" class="section" style="display:none;">
+        <div class="section-header"><h1>Analytics Avanzado</h1></div>
+        <div id="analytics-panel-container"></div>
+      </section>
+
+      <section id="panel-notas" class="section" style="display:none;">
+        <div class="section-header"><h1>Sistema de Notas</h1></div>
+        <div id="notas-panel-container"></div>
+      </section>
+
+      <section id="panel-exportacion" class="section" style="display:none;">
+        <div class="section-header"><h1>Centro de Exportación</h1></div>
+        <div id="export-panel-container"></div>
+      </section>
+
+      <section id="panel-configuracion" class="section" style="display:none;">
+        <div class="section-header"><h1>Configuración</h1></div>
+        <div id="config-panel-container"></div>
+      </section>
+
+      <section id="panel-codigos" class="section" style="display:none;">
+        <div class="section-header"><h1>Gestión de Códigos</h1></div>
+        <div id="codigos-panel-container"></div>
+      </section>
+
+      <section id="panel-comunicacion" class="section" style="display:none;">
+        <div class="section-header"><h1>Comunicación</h1></div>
+        <div id="comunicacion-panel-container"></div>
+      </section>
+
+      <section id="panel-analytics-ia" class="section" style="display:none;">
+        <div class="section-header"><h1>Analytics IA</h1></div>
+        <div id="analytics-ia-panel-container"></div>
+      </section>
+
+      <section id="panel-codigo-inicio" class="section" style="display:none;">
+        <div class="section-header"><h1>Código de Inicio</h1></div>
+        <div id="start-code-panel-container"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/assets/js/admin-dashboard.js"></script>
+  <script src="/assets/js/admin-panels-preview.js"></script>
+  <script>
+    // Theme switcher
+    (function(){
+      var themeSwitch = document.getElementById('themeSwitch');
+      var apply = function(t){ document.body.setAttribute('data-theme', t); if(themeSwitch){ themeSwitch.classList.toggle('dark', t==='dark'); } try{ localStorage.setItem('theme', t);}catch(e){} };
+      try{ var saved = localStorage.getItem('theme'); if(saved) apply(saved);}catch(e){}
+      if(themeSwitch){ themeSwitch.addEventListener('click', function(){ var cur = document.body.getAttribute('data-theme')||'light'; apply(cur==='light'?'dark':'light'); }); }
+    })();
+
+    // Lectores y render de paneles (desde /storage/*.json)
+    (async function(){
+      async function read(url){
+        try { const res = await fetch(url); if(!res.ok) return []; const data = await res.json(); return Array.isArray(data)?data:[]; } catch(e){ return []; }
+      }
+      const labs = await read('/storage/labs.json');
+      const computers = await read('/storage/computers.json');
+      const groups = await read('/storage/groups.json');
+      const sessions = await read('/storage/sessions.json');
+      const users = await read('/storage/users.json');
+      const grades = await read('/storage/grades.json');
+      const exercises = await read('/storage/exercises.json');
+
+      const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = String(val); };
+
+      // Resumen general
+      const labsCount = labs.length;
+      const computersCount = computers.length;
+      const onlineComputersCount = computers.filter(c => String(c.status||c.estado||'').toLowerCase().includes('online')).length;
+      const groupsCount = groups.length;
+      set('total-labs', labsCount);
+      set('total-computers', computersCount);
+      set('online-computers', onlineComputersCount);
+      set('total-groups', groupsCount);
+
+      // Estado por laboratorio
+      const labStats = {};
+      labs.forEach(l => { const id = l.id ?? l.lab_id ?? l.codigo ?? 'NA'; labStats[id] = { name: l.name ?? l.nombre ?? ('Lab '+id), online:0, offline:0, maintenance:0, error:0, total:0 }; });
+      computers.forEach(c => {
+        const lid = c.lab_id ?? c.laboratorio_id ?? 'NA';
+        const st = String(c.status||c.estado||'offline').toLowerCase();
+        if(!labStats[lid]) labStats[lid] = { name: 'Lab '+lid, online:0, offline:0, maintenance:0, error:0, total:0 };
+        labStats[lid].total++;
+        if(labStats[lid][st] != null) labStats[lid][st]++; else labStats[lid].offline++;
+      });
+      const labsContainer = document.getElementById('labs-status-container');
+      if(labsContainer){
+        if(Object.keys(labStats).length === 0){
+          labsContainer.innerHTML = '<p>No hay datos de laboratorios y computadoras en storage.</p>';
+        } else {
+          const html = ['<div class="cards-grid">'];
+          Object.values(labStats).forEach(info => {
+            html.push(`<div class="card"><h3>${info.name}</h3><p>Total: ${info.total}</p><div style="display:flex;gap:12px;flex-wrap:wrap;"><span>✅ ${info.online}</span><span>🟡 ${info.maintenance}</span><span>🔴 ${info.offline}</span><span>⚠️ ${info.error}</span></div></div>`);
+          });
+          html.push('</div>');
+          labsContainer.innerHTML = html.join('');
+        }
+      }
+
+      // Sesiones activas
+      const active = sessions.filter(s => !s.ended_at && !s.fin);
+      const sessionsContainer = document.getElementById('active-sessions-container');
+      if(sessionsContainer){
+        if(active.length === 0){ sessionsContainer.innerHTML = '<p>No hay sesiones activas.</p>'; }
+        else {
+          const html = ['<ul>'];
+          active.forEach(s => {
+            const lab = s.lab_name || s.laboratorio || ('Lab ' + (s.lab_id ?? '?'));
+            const group = s.group_name || s.grupo || 'Grupo';
+            const teacher = s.teacher_name || s.profesor || '';
+            const started = s.started_at || s.inicio || '';
+            html.push(`<li><strong>${lab}</strong> — ${group} — ${teacher} <span style="opacity:.7;">Inicio: ${started}</span></li>`);
+          });
+          html.push('</ul>');
+          sessionsContainer.innerHTML = html.join('');
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

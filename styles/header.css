@@ -1,0 +1,158 @@
+/* Estilos para el header */
+.main-header {
+    background: var(--bg-primary);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: var(--transition);
+}
+
+/* Logo y título */
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s ease;
+}
+
+.logo-link:hover {
+    transform: translateY(-1px);
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-color), var(--friendly-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+}
+
+.logo-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.institution-name {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.friendly-badge {
+    background: linear-gradient(135deg, var(--friendly-color), #059669);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+/* Theme switcher visuals are defined in styles/theme-switcher.css */
+
+/* Badges */
+.role-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.student-badge { background: var(--success-color); color: white; }
+.teacher-badge { background: var(--warning-color); color: white; }
+.admin-badge { background: var(--error-color); color: white; }
+
+.group-badge {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--friendly-color);
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* User info en header */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+/* --- Ajustes de orden y alineación del header --- */
+.main-header {
+    padding: 12px 20px;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+}
+
+.header-controls {
+    display: flex;
+    flex-direction: row; /* asegurar fila */
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: nowrap; /* evitar salto de línea */
+    margin-left: auto; /* empujar al extremo derecho */
+}
+
+/* Asegurar que los botones dentro del header no ocupen ancho completo */
+.main-header .btn,
+.header-nav .btn,
+.header-controls .btn,
+.auth-buttons .btn,
+.user-actions .btn {
+    width: auto !important;
+    margin: 0 !important;
+    display: inline-flex;
+    white-space: nowrap;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+/* Ajustes menores visuales */
+.logo-badges {
+    gap: 4px;
+}
+
+@media (max-width: 768px) {
+    .institution-name { display: none; }
+    .friendly-badge { font-size: 10px; padding: 3px 8px; }
+    .header-controls { gap: 8px; }
+}

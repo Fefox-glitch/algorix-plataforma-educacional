@@ -1,0 +1,81 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "🚀 Algorix - Live Server (Recomendado)",
+            "url": "http://127.0.0.1:5500",
+            "webRoot": "${workspaceFolder}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal",
+            "sourceMaps": true,
+            "preLaunchTask": "Live Server"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "🌐 Algorix - Funcional (Sin Python)",
+            "url": "file:///${workspaceFolder}/index.html",
+            "webRoot": "${workspaceFolder}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal",
+            "sourceMaps": true
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "🔧 Algorix - Con Node.js (Alternativa)",
+            "url": "http://127.0.0.1:8080",
+            "webRoot": "${workspaceFolder}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal",
+            "sourceMaps": true,
+            "preLaunchTask": "Start Node HTTP Server"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "🔍 Algorix - Debug Mode",
+            "url": "file:///${workspaceFolder}/index.html",
+            "webRoot": "${workspaceFolder}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal",
+            "sourceMaps": true,
+            "trace": true
+        },
+        {
+            "type": "msedge",
+            "request": "launch",
+            "name": "🌟 Algorix - Microsoft Edge",
+            "url": "file:///${workspaceFolder}/index.html",
+            "webRoot": "${workspaceFolder}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "🦊 Algorix - Firefox",
+            "url": "file:///${workspaceFolder}/index.html",
+            "webRoot": "${workspaceFolder}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}

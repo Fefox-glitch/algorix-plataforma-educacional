@@ -1,0 +1,37 @@
+[
+    {
+        "id": "offline-student-001",
+        "name": "Alice Student",
+        "email": "student1@example.com",
+        "password_hash": "$2y$10$38xz32fNdjrP0dIlpLg9g.q.POmmXBOx0Trcjghd84F3KQYFgqsCy",
+        "role": "student"
+    },
+    {
+        "name": "Fernando",
+        "email": "fernandotroncoso.ortiz@gmail.com",
+        "password_hash": "$2y$10$naVY6ELf\/OML7EBTwBBnLe1SadkljKQaVClrmxhCnxM5LhxHBZjc.",
+        "role": "student",
+        "id": "offline-55350350a525"
+    },
+    {
+        "name": "Fernando",
+        "email": "email@edu.cl",
+        "password_hash": "$2y$10$g.OwsJEatiuLlN6bsd3wbu6Zer.UXX3XjAgJN5mc3CEABEcoOxAy6",
+        "role": "teacher",
+        "id": "offline-c1fcce864fca"
+    },
+    {
+        "name": "admin",
+        "email": "kk@admin.cl",
+        "password_hash": "$2y$10$ueReHO5WuF0pOK1l\/Bk6muNuoH9cQ3SlWS3nrqzghQPT5T2M2Yapi",
+        "role": "admin",
+        "id": "offline-150d1e4694d4"
+    },
+    {
+        "name": "kakas",
+        "email": "kk@edu.cl",
+        "password_hash": "$2y$10$8KBS2WwWyxTiy0OU6XKXMeMtT1xJ9klDWDSrI3ZcNbE\/ysW7vhB5u",
+        "role": "admin",
+        "id": "offline-8883dc9c01ad"
+    }
+]

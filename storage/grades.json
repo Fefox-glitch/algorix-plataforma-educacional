@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "user_id": 501,
+    "course_id": 1,
+    "module_id": 101,
+    "exercise_id": 1001,
+    "final_grade": 85.5,
+    "updated_at": "2025-01-01T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "user_id": 502,
+    "course_id": 1,
+    "module_id": 101,
+    "exercise_id": 1002,
+    "final_grade": 92,
+    "updated_at": "2025-01-02T14:00:00Z"
+  },
+  {
+    "id": 3,
+    "user_id": 503,
+    "course_id": 2,
+    "final_grade": 78,
+    "updated_at": "2025-01-03T09:30:00Z"
+  }
+]

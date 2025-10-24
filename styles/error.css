@@ -1,0 +1,62 @@
+/* Estilos para notificaciones de error */
+.error-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 400px;
+    z-index: 9999;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.error-notification.hidden {
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+}
+
+.error-content {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-radius: 8px;
+    background: white;
+    gap: 12px;
+}
+
+.error-notification.error .error-content {
+    border-left: 4px solid var(--error-color);
+    background: #FEF2F2;
+}
+
+.error-notification.warning .error-content {
+    border-left: 4px solid var(--warning-color);
+    background: #FFFBEB;
+}
+
+.error-notification.info .error-content {
+    border-left: 4px solid var(--primary-color);
+    background: #EFF6FF;
+}
+
+.error-message {
+    flex: 1;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.error-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 4px;
+    line-height: 1;
+}
+
+.error-close:hover {
+    color: var(--text-primary);
+}
