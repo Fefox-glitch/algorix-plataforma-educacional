@@ -154,7 +154,7 @@ function redirect($path = '') {
 function checkCsrfToken(): void {
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
     if ($method === 'GET') { return; }
-    $token = $_POST['csrf_token'] ?? ($_GET['csrf_token'] ?? '');
+    $token = $_POST['csrf_token'] ?? ($_GET['csrf_token'] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? ''));
     if (class_exists('App\\Core\\Security')) {
         if (!\App\Core\Security::verifyCsrfToken($token)) {
             http_response_code(403);

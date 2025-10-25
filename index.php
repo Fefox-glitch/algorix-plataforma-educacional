@@ -6,6 +6,8 @@ require_once __DIR__ . '/config.php';
 // require_once __DIR__ . '/src/Controllers/TeacherController.php';
 
 use App\Controllers\TeacherController;
+use App\Controllers\AuthController;
+use App\Controllers\AdminController;
 
 function requireAuthRole($role) {
     if (!isset($_SESSION['user'])) { http_response_code(401); echo json_encode(['error' => 'unauthenticated']); exit; }
@@ -13,38 +15,21 @@ function requireAuthRole($role) {
     if ($r !== $role) { http_response_code(403); echo json_encode(['error' => 'forbidden']); exit; }
 }
 
-function checkCsrf() {
-    // Moved from previous context: ensure CSRF token is validated for POST-like methods
-    if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-        $token = $_POST['csrf_token'] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '');
-        if (!class_exists('App\\Core\\Security')) {
-            // Fallback simple check
-            if (empty($token) || !isset($_SESSION['csrf_token']) || $token !== $_SESSION['csrf_token']) {
-                http_response_code(419); echo json_encode(['error' => 'csrf_invalid']); exit;
-            }
-        } else {
-            if (!App\Core\Security::verifyCsrfToken($token)) {
-                http_response_code(419); echo json_encode(['error' => 'csrf_invalid']); exit;
-            }
-        }
-    }
-}
-
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas Auth
 if ($path === '/auth/login') {
-    $auth = new \AuthController();
+    $auth = new AuthController();
     $auth->login();
     exit;
 }
 if ($path === '/auth/register') {
-    $auth = new \AuthController();
+    $auth = new AuthController();
     $auth->register();
     exit;
 }
 if ($path === '/auth/logout') {
-    $auth = new \AuthController();
+    $auth = new AuthController();
     $auth->logout();
     exit;
 }
@@ -52,7 +37,6 @@ if ($path === '/auth/logout') {
 // Rutas API Teacher
 if (strpos($path, '/api/teacher/') === 0) {
     requireAuthRole('teacher');
-    checkCsrf();
     $teacher = new TeacherController();
     if ($path === '/api/teacher/users') { $teacher->listStudents(); exit; }
     if ($path === '/api/teacher/analytics') { $teacher->analytics(); exit; }
@@ -77,9 +61,13 @@ if (strpos($path, '/api/teacher/') === 0) {
 
 // Rutas API Admin
 if (strpos($path, '/api/admin/') === 0) {
+    // Verificación de método para endpoints de restore antes de autenticación
+    if ($path === '/api/admin/labs/restore' && $_SERVER['REQUEST_METHOD'] !== 'PATCH') { http_response_code(405); header('Allow: PATCH'); echo json_encode(['error' => 'method_not_allowed']); exit; }
+    if ($path === '/api/admin/computers/restore' && $_SERVER['REQUEST_METHOD'] !== 'PATCH') { http_response_code(405); header('Allow: PATCH'); echo json_encode(['error' => 'method_not_allowed']); exit; }
+    if ($path === '/api/admin/groups/restore' && $_SERVER['REQUEST_METHOD'] !== 'PATCH') { http_response_code(405); header('Allow: PATCH'); echo json_encode(['error' => 'method_not_allowed']); exit; }
+
     requireAuthRole('admin');
-    checkCsrf();
-    $admin = new \AdminController();
+    $admin = new AdminController();
     // Labs
     if ($path === '/api/admin/labs' && $_SERVER['REQUEST_METHOD'] === 'GET') { $admin->listLabs(); exit; }
     if ($path === '/api/admin/labs' && $_SERVER['REQUEST_METHOD'] === 'POST') { $admin->createLab(); exit; }
@@ -175,4 +163,4 @@ $static = __DIR__ . $path;
 if (file_exists($static)) { return false; }
 
 http_response_code(404);
-echo 'Not Found';
+echo '404 Not Found';

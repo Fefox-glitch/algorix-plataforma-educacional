@@ -20,7 +20,7 @@ class ComputerControlService {
         
         return $this->safePing($ipAddress);
     }
-    
+
     /**
      * Realiza un "ping" sin usar exec: prueba puertos comunes vía sockets
      */
@@ -31,11 +31,11 @@ class ComputerControlService {
         }
         return false;
     }
-    
+
     /**
      * Alternativa más segura usando sockets en lugar de exec
      */
-    private function checkPortOpen($ip, $port = 80, $timeout = 1) {
+    public function checkPortOpen($ip, $port = 80, $timeout = 1) {
         $fp = @fsockopen($ip, $port, $errno, $errstr, $timeout);
         if ($fp) {
             fclose($fp);
@@ -43,7 +43,7 @@ class ComputerControlService {
         }
         return false;
     }
-    
+
     /**
      * Obtiene la lista de equipos desde la base de datos
      */
@@ -58,7 +58,7 @@ class ComputerControlService {
         
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-    
+
     /**
      * Actualiza el estado de un equipo
      */

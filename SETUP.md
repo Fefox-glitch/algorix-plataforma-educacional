@@ -1,5 +1,45 @@
 # Algorix - Configuración del Proyecto
 
+## Requisitos
+- PHP 8.3 (CLI) con extensiones: `curl`, `openssl`, `mbstring`, `zip`.
+- Git y 7-Zip (opcional, para Composer si falta `ext-zip`).
+
+## Instalación de dependencias
+- Composer local: `php composer-setup.php --install-dir=. --filename=composer.phar`.
+- Instalar dependencias: `php composer.phar install`.
+
+## Servidor local
+- Levantar: `php -S localhost:8000 router.php`.
+- Abrir: `http://localhost:8000/`.
+
+## Pruebas
+- Unitarias: `vendor\bin\phpunit -c phpunit.xml.dist --testsuite unit`.
+- Integración: `vendor\bin\phpunit -c phpunit.xml.dist --testsuite integration`.
+- Estado actual: verde
+  - Unit: OK (6 tests, 9 assertions)
+  - Integration: OK (1 test, 4 assertions)
+
+## Calidad de código
+- PHPCS: `vendor\bin\phpcs --standard=phpcs.xml tests\unit`.
+- PHPStan: `vendor\bin\phpstan analyse` (puede reportar símbolos no definidos en módulos Supabase).
+
+## Notas de seguridad y CSRF
+- Métodos no‑GET requieren token CSRF válido.
+- Obtener token: `\App\Core\Security::generateCsrfToken()`.
+- Enviar en formularios o header `X-CSRF-TOKEN`.
+
+## Estructura relevante
+- `router.php`: entrada única en local.
+- `index.php`: despacho de rutas y vistas.
+- `src/Utils/functions.php`: helpers `render_view`, `render_error`, `sanitize_input`, `base_url`.
+- `src/Services/ComputerControlService.php`: `checkPortOpen` público para tests.
+- `tests/unit`: pruebas de utilidades y servicios.
+- `tests/integration`: pruebas de flujo (seeds y endpoints a futuro).
+
+## Troubleshooting
+- Si Composer falla por `ext-zip`, instalar 7-Zip y ejecutar `php composer.phar install`.
+- Si PHPUnit reclama `mbstring`, habilitar en `php.ini` del CLI: `extension=mbstring` y `extension=zip`.
+
 ## Resumen de Cambios
 
 Se ha limpiado y configurado el proyecto PHP para funcionar con Supabase como base de datos.
@@ -43,6 +83,7 @@ Se ha limpiado y configurado el proyecto PHP para funcionar con Supabase como ba
 ├── init.php                # Inicialización de sesión y funciones
 ├── autoload.php            # Autoloader de clases
 ├── index.php               # Punto de entrada principal
+├── router.php              # Router para php -S (entrada única en local)
 ├── test-connection.php     # Script de prueba de conexión
 ├── .env                    # Variables de entorno (Supabase)
 ├── src/
@@ -104,11 +145,38 @@ Se ha limpiado y configurado el proyecto PHP para funcionar con Supabase como ba
 - Cookie only cookies habilitada
 - Datos sensibles no expuestos
 
-### 7. Pruebas
+#### CSRF (clientes)
+- Los métodos no‑GET requieren token CSRF válido.
+- Fuentes aceptadas: parámetro `csrf_token` (POST/GET) o header `X-CSRF-TOKEN`.
+- Para vistas PHP, obtener el token con `\App\Core\Security::generateCsrfToken()` y enviarlo en formularios.
+- El layout `views/shared/layout.php` expone automáticamente `window.CSRF_TOKEN` para uso en scripts.
+- Ejemplos:
+  - cURL:
+    ```sh
+    curl -X PATCH http://localhost:8000/api/admin/labs/restore \
+      -H "Content-Type: application/json" \
+      -H "X-CSRF-TOKEN: <TOKEN>" \
+      -d '{"id":1}'
+    ```
+  - fetch:
+    ```js
+    fetch('/api/admin/labs/restore', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': window.CSRF_TOKEN },
+      body: JSON.stringify({ id: 1 })
+    });
+    ```
+
+### 7. Servidor único (local)
+- Levantar el servidor: `php -S localhost:8000 router.php`.
+- Acceso: `http://localhost:8000/`.
+- `router.php` sirve estáticos existentes y delega el resto a `index.php`.
+
+### 8. Pruebas
 
 Para probar la conexión a Supabase:
 ```
-http://localhost/algorix/test-connection.php
+http://localhost:8000/test-connection.php
 ```
 
 Este script verificará:
@@ -116,7 +184,7 @@ Este script verificará:
 - Conexión a Supabase
 - Lectura de tablas
 
-### 8. Próximos Pasos
+### 9. Próximos Pasos
 
 1. Implementar dashboards completos para cada rol
 2. Crear módulos de gestión de cursos
@@ -124,14 +192,14 @@ Este script verificará:
 4. Agregar sistema de evaluación automática
 5. Crear reportes y estadísticas
 
-### 9. Notas Importantes
+### 10. Notas Importantes
 
 - **Sin JavaScript:** El proyecto actualmente es 100% PHP
 - **API REST:** Todas las operaciones de BD se hacen vía API REST de Supabase
 - **RLS Público:** Las políticas de `users` están abiertas para permitir registro/login
 - **Producción:** En producción, considerar usar Supabase Auth en lugar de gestión manual de contraseñas
 
-### 10. Mantenimiento
+### 11. Mantenimiento
 
 Para actualizar la base de datos, usar:
 ```php

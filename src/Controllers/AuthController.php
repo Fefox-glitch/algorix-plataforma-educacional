@@ -1,4 +1,5 @@
 <?php
+namespace App\Controllers;
 
 class AuthController {
 
@@ -21,49 +22,6 @@ class AuthController {
                         'email' => 'student1@example.com',
                         'password_hash' => password_hash('Algorix123!', PASSWORD_DEFAULT),
                         'role' => 'student'
-                    ];
-                    if (function_exists('offlineSupabaseRequest')) {
-                        $created = offlineSupabaseRequest('POST', 'users', $demoData);
-                        if ($created['code'] === 201 && !empty($created['data'])) {
-                            $demo = $created['data'][0];
-                        } else {
-                            $demo = $demoData;
-                        }
-                    } else {
-                        $demo = $demoData;
-                    }
-                }
-
-                // Guardar sesión y redirigir al dashboard de estudiante
-                $_SESSION['user'] = [
-                    'id' => $demo['id'] ?? 'offline-student',
-                    'name' => $demo['name'],
-                    'email' => $demo['email'],
-                    'role' => 'student'
-                ];
-                redirect('student/dashboard');
-                return;
-            }
-        }
-
-        // Login demo offline para profesor: /auth/login?demo=teacher
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['demo']) && $_GET['demo'] === 'teacher') {
-            if (function_exists('isOfflineModeEnabled') && isOfflineModeEnabled()) {
-                // Intentar obtener el usuario demo del almacenamiento offline
-                $demo = null;
-                if (function_exists('offlineSupabaseRequest')) {
-                    $res = offlineSupabaseRequest('GET', 'users?email=eq.' . urlencode('teacher1@example.com'));
-                    if ($res['code'] === 200 && !empty($res['data'])) {
-                        $demo = $res['data'][0];
-                    }
-                }
-                // Si no existe, crear uno al vuelo
-                if (!$demo) {
-                    $demoData = [
-                        'name' => 'Tom Teacher',
-                        'email' => 'teacher1@example.com',
-                        'password_hash' => password_hash('Algorix123!', PASSWORD_DEFAULT),
-                        'role' => 'teacher'
                     ];
                     if (function_exists('offlineSupabaseRequest')) {
                         $created = offlineSupabaseRequest('POST', 'users', $demoData);

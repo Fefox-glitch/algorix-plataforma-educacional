@@ -1,8 +1,6 @@
 <?php
 namespace App\Controllers;
 
-require_once __DIR__ . '/../../config.php';
-
 class TeacherController {
     private function readJson($path) {
         if (!file_exists($path)) { return []; }
@@ -168,7 +166,7 @@ class TeacherController {
     public function listLabs() {
         header('Content-Type: application/json');
         $res = supabaseRequest('GET', 'computer_labs?select=id,name,location,capacity,is_active&deleted_at=is.null');
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
         $error = $res['error'] ?? null;
         if ($code >= 400) { echo json_encode(['error' => $error ?: 'upstream_error']); return; }
@@ -182,7 +180,10 @@ class TeacherController {
         $endpoint = 'lab_sessions?order=started_at.desc&limit=100';
         if ($teacherId) { $endpoint .= '&teacher_id=eq.' . urlencode($teacherId); }
         $res = supabaseRequest('GET', $endpoint);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
+        $error = $res['error'] ?? null;
+        if ($code >= 400) { echo json_encode(['error' => $error ?: 'upstream_error']); return; }
         echo json_encode(['data' => $data]);
     }
 
@@ -192,7 +193,7 @@ class TeacherController {
         $endpoint = 'computers?select=id,name,lab_id,ip_address,mac_address,status,last_seen,last_boot&deleted_at=is.null';
         if ($labId > 0) { $endpoint .= '&lab_id=eq.' . $labId; }
         $res = supabaseRequest('GET', $endpoint);
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
         $error = $res['error'] ?? null;
         if ($code >= 400) { echo json_encode(['error' => $error ?: 'upstream_error']); return; }
@@ -205,7 +206,7 @@ class TeacherController {
         $endpoint = 'computer_assignments?order=assigned_at.desc&limit=200';
         if ($groupId > 0) { $endpoint .= '&group_id=eq.' . $groupId; }
         $res = supabaseRequest('GET', $endpoint);
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
         $error = $res['error'] ?? null;
         if ($code >= 400) { echo json_encode(['error' => $error ?: 'upstream_error']); return; }
@@ -232,7 +233,7 @@ class TeacherController {
                 'result' => ''
             ];
             $res = supabaseRequest('POST', 'computer_actions', $payload);
-            if (($res['code'] ?? 500) === 201) { $created++; } else { $errors[] = $res['error'] ?? 'error'; }
+            if ((int)$res['code'] === 201) { $created++; } else { $errors[] = $res['error'] ?? 'error'; }
         }
         if (!empty($errors) && $created === 0) { http_response_code(500); echo json_encode(['error' => 'no_actions_created', 'details' => $errors]); return; }
         http_response_code(201); echo json_encode(['ok' => true, 'created' => $created]);
@@ -386,7 +387,7 @@ class TeacherController {
         $data = [ 'user_id' => $userId, 'course_id' => $courseId, 'final_grade' => $final ];
         if ($moduleId !== null) { $data['module_id'] = $moduleId; }
         $res = supabaseRequest('POST', 'grades', $data);
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $dataOut = is_array($res['data'] ?? null) ? $res['data'] : null;
         $err = $res['error'] ?? null;
         if ($code >= 400) { http_response_code($code); echo json_encode(['error' => $err ?: 'upstream_error']); return; }
@@ -425,7 +426,7 @@ class TeacherController {
         if (empty($data)) { echo json_encode(['error' => 'no_changes']); return; }
         $endpoint = 'grades?id=eq.' . $id;
         $res = supabaseRequest('PATCH', $endpoint, $data);
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $dataOut = is_array($res['data'] ?? null) ? $res['data'] : null;
         $err = $res['error'] ?? null;
         if ($code >= 400) { http_response_code($code); echo json_encode(['error' => $err ?: 'upstream_error']); return; }
@@ -452,7 +453,7 @@ class TeacherController {
         // Camino normal con Supabase
         $endpoint = 'grades?id=eq.' . $id;
         $res = supabaseRequest('DELETE', $endpoint);
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $err = $res['error'] ?? null;
         if ($code >= 400) { http_response_code($code); echo json_encode(['error' => $err ?: 'upstream_error']); return; }
         echo json_encode(['data' => ['deleted' => true]]);

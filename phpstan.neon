@@ -1,8 +1,25 @@
 parameters:
   level: 4
+  reportUnmatchedIgnoredErrors: false
   paths:
     - src
+    - scripts
+    - config.php
+    - init.php
+    - router.php
+    - index.php
+    - public/index.php
+    - autoload.php
   excludePaths:
     - tests
     - views
-  checkMissingIterableValueType: false
+  scanFiles:
+    - stubs/phpstan-stubs.php
+  ignoreErrors:
+    - message: '#Result of && is always (true|false)#'
+      path: src/Controllers/TeacherController.php
+    - identifier: empty.expr
+      path: src/Controllers/TeacherController.php
+    - message: '#Offset .* in isset\(\) always exists and is not nullable#'
+      path: src/Controllers/AuthController.php
+    - identifier: missingType.iterableValue

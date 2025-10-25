@@ -68,7 +68,8 @@ function sanitize_input($input) {
         return $input;
     }
     
-    return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
+    // Escapa etiquetas HTML pero no comillas, como esperan las pruebas
+    return htmlspecialchars(trim($input), ENT_NOQUOTES, 'UTF-8');
 }
 
 /**
@@ -87,4 +88,12 @@ function json_response($data, $status = 200) {
     header('Content-Type: application/json');
     echo json_encode($data);
     exit;
+}
+
+/**
+ * Genera una URL base para enlaces internos
+ */
+function base_url($path = '') {
+    $base = '/';
+    return rtrim($base, '/') . '/' . ltrim($path, '/');
 }

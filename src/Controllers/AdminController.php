@@ -26,7 +26,7 @@ class AdminController {
     public function listLabs() {
         $offline = false; // offline eliminado
         $res = supabaseRequest('GET', 'computer_labs?select=id,name,location,capacity,is_active,created_by,updated_by,created_at,updated_at&deleted_at=is.null');
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
         $error = $res['error'] ?? null;
         if ($code >= 400) { return $this->json($code, null, $error ?: 'upstream_error'); }
@@ -121,7 +121,7 @@ class AdminController {
             $endpoint .= '&status=eq.' . urlencode($status);
         }
         $res = supabaseRequest('GET', $endpoint);
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
         $error = $res['error'] ?? null;
         if ($code >= 400) { return $this->json($code, null, $error ?: 'upstream_error'); }
@@ -227,7 +227,7 @@ class AdminController {
     public function listGroups() {
         $offline = false; // offline eliminado
         $res = supabaseRequest('GET', 'student_groups?select=id,name,teacher_id,lab_id,is_active,created_by,updated_by,created_at,updated_at&deleted_at=is.null');
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
         $error = $res['error'] ?? null;
         if ($code >= 400) { return $this->json($code, null, $error ?: 'upstream_error'); }
@@ -317,7 +317,7 @@ class AdminController {
     public function listTeachers() {
         $offline = false; // offline eliminado
         $res = supabaseRequest('GET', 'users?role=in.(teacher,admin)');
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
         $error = $res['error'] ?? null;
         if ($code >= 400) { return $this->json($code, null, $error ?: 'upstream_error'); }
@@ -328,7 +328,7 @@ class AdminController {
     public function listActions() {
         $offline = false; // offline eliminado
         $res = supabaseRequest('GET', 'computer_actions?select=id,computer_id,action_type,performed_by,status,result,performed_at&order=performed_at.desc&limit=100');
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
         $error = $res['error'] ?? null;
         if ($code >= 400) { return $this->json($code, null, $error ?: 'upstream_error'); }
@@ -346,8 +346,8 @@ class AdminController {
         $offline = false; // offline eliminado
         // Obtener computadoras del laboratorio y crear acciones por cada una
         $res = supabaseRequest('GET', 'computers?lab_id=eq.' . $labId . '&select=id');
-        if (($res['code'] ?? 500) !== 200 || empty($res['data'])) {
-            return $this->json($res['code'] ?? 500, null, 'No se pudieron listar computadoras del laboratorio');
+        if ((int)$res['code'] !== 200 || empty($res['data'])) {
+            return $this->json((int)$res['code'], null, 'No se pudieron listar computadoras del laboratorio');
         }
         $created = [];
         foreach ($res['data'] as $c) {
@@ -359,7 +359,7 @@ class AdminController {
                 'result' => ''
             ];
             $ins = supabaseRequest('POST', 'computer_actions', $item);
-            if (($ins['code'] ?? 500) === 201) { $created[] = $ins['data'][0]; }
+            if ((int)$ins['code'] === 201) { $created[] = $ins['data'][0]; }
         }
         return $this->json(201, ['count' => count($created)]);
     }
@@ -368,7 +368,7 @@ class AdminController {
     public function listSessions() {
         $offline = false; // offline eliminado
         $res = supabaseRequest('GET', 'lab_sessions?order=started_at.desc&limit=100');
-        $code = (int)($res['code'] ?? 500);
+        $code = (int)$res['code'];
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
         $error = $res['error'] ?? null;
         if ($code >= 400) { return $this->json($code, null, $error ?: 'upstream_error'); }
