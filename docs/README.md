@@ -102,3 +102,17 @@ El proyecto sigue una arquitectura MVC (Modelo-Vista-Controlador):
 3. Logs:
    - Logs de errores en `logs/`
    - Logs de acceso en `logs/access/`
+
+## Publicación Manual (CI)
+
+Para publicar imágenes Docker sin entorno local, usa el flujo manual de GitHub Actions:
+
+- Enlace directo: https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml
+- Selecciona "Run workflow" en la rama que contiene el workflow (p. ej. `cleanup/structure`).
+- Inputs:
+  - `registry`: `dockerhub` (por defecto) o `ghcr`.
+  - `tag`: el tag a publicar (p. ej. `dev`, `v0.1.0`).
+- Requisitos Docker Hub:
+  - Variables: `DOCKERHUB_REPO=rsfefox/algorix`.
+  - Secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
+- Opcional: `BUILDX_CLOUD_ENDPOINT=rsfefox/algorix` para acelerar builds con Docker Buildx Cloud.
