@@ -99,6 +99,26 @@ docker build -t algorix:local .
 - Multi‑arquitectura: `linux/amd64` y `linux/arm64` (Buildx + QEMU).
 - Las publicaciones en `main`, tags `v*` y releases generan ambas arquitecturas.
 
+### Buildx Cloud (opcional)
+
+- Para acelerar builds, puedes usar Docker Buildx Cloud en la CI.
+- Configura en el repositorio la variable `Settings > Variables > Actions`:
+  - `BUILDX_CLOUD_ENDPOINT` (por ejemplo `rsfefox/algorix`).
+- El workflow utilizará automáticamente `driver: cloud` con ese endpoint en los jobs de publicación (GHCR y Docker Hub). Si no está definida, usa el builder por defecto.
+- Nota: los pasos que realizan `load: true` (como el build de artefacto Docker local) no cargan en el daemon cuando se usa Cloud; los jobs de publicación hacen `push` y funcionan correctamente.
+
+Uso local de Buildx Cloud (opcional):
+
+```bash
+# Requiere Docker Desktop instalado y sesión iniciada (docker login)
+docker buildx create --driver cloud rsfefox/algorix --name cloud-rsfefox-algorix
+docker buildx use cloud-rsfefox-algorix
+docker buildx ls
+
+# Ejemplo de build multi‑arch con push
+docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/Fefox-glitch/algorix:dev . --push
+```
+
 ## Contribuir
 
 Consulta `CONTRIBUTING.md` para el flujo de ramas, estilo de commits y checklist de PRs.
