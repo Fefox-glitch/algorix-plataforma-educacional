@@ -1,4 +1,4 @@
-# Estructura del Proyecto Algorix
+# Algorix Plataforma Educacional — Estructura del Proyecto
 
 ## Organización de Directorios
 

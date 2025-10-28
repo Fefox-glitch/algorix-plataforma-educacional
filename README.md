@@ -1,4 +1,4 @@
-# Algorix
+# Algorix Plataforma Educacional
 
 [![CI](https://img.shields.io/github/actions/workflow/status/Fefox-glitch/test/ci-cd.yml?branch=main&label=CI)](https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml) [Run workflow](https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml)
 [![Coverage](https://codecov.io/gh/Fefox-glitch/test/branch/main/graph/badge.svg)](https://codecov.io/gh/Fefox-glitch/test)
