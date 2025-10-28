@@ -28,7 +28,7 @@ Este Pull Request integra la publicación de imágenes Docker en **GHCR** y **Do
 
 ## Verificación
 1) GitHub Actions: revisar runs del workflow de CI para el tag `v0.1.0` o ejecución manual.
-2) GHCR: comprobar el paquete en `https://github.com/Fefox-glitch/test/pkgs/container/algorix` y que existan las dos arquitecturas.
+2) GHCR: comprobar el paquete en `https://github.com/Fefox-glitch/algorix-plataforma-educacional/pkgs/container/algorix` y que existan las dos arquitecturas.
 3) Docker Hub: comprobar que la imagen `${DOCKERHUB_REPO}:v0.1.0` está disponible y soporta multi-arch.
 4) Codecov: verificar que el informe de cobertura se subió correctamente (si procede).
 

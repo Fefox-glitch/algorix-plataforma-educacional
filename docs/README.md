@@ -107,7 +107,7 @@ El proyecto sigue una arquitectura MVC (Modelo-Vista-Controlador):
 
 Para publicar imágenes Docker sin entorno local, usa el flujo manual de GitHub Actions:
 
-- Enlace directo: https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml
+ - Enlace directo: https://github.com/Fefox-glitch/algorix-plataforma-educacional/actions/workflows/ci-cd.yml
 - Selecciona "Run workflow" en la rama que contiene el workflow (p. ej. `cleanup/structure`).
 - Inputs:
   - `registry`: `dockerhub` (por defecto) o `ghcr`.

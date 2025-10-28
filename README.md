@@ -1,8 +1,8 @@
 # Algorix Plataforma Educacional
 
-[![CI](https://img.shields.io/github/actions/workflow/status/Fefox-glitch/test/ci-cd.yml?branch=main&label=CI)](https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml) [Run workflow](https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml)
-[![Coverage](https://codecov.io/gh/Fefox-glitch/test/branch/main/graph/badge.svg)](https://codecov.io/gh/Fefox-glitch/test)
-[![GHCR](https://img.shields.io/badge/GHCR-Algorix-blue?logo=github)](https://github.com/Fefox-glitch/test/pkgs/container/algorix)
+[![CI](https://img.shields.io/github/actions/workflow/status/Fefox-glitch/algorix-plataforma-educacional/ci-cd.yml?branch=main&label=CI)](https://github.com/Fefox-glitch/algorix-plataforma-educacional/actions/workflows/ci-cd.yml) [Run workflow](https://github.com/Fefox-glitch/algorix-plataforma-educacional/actions/workflows/ci-cd.yml)
+[![Coverage](https://codecov.io/gh/Fefox-glitch/algorix-plataforma-educacional/branch/main/graph/badge.svg)](https://codecov.io/gh/Fefox-glitch/algorix-plataforma-educacional)
+[![GHCR](https://img.shields.io/badge/GHCR-Algorix-blue?logo=github)](https://github.com/Fefox-glitch/algorix-plataforma-educacional/pkgs/container/algorix)
 [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-rsfefox%2Falgorix-2496ED?logo=docker)](https://hub.docker.com/repository/docker/rsfefox/algorix)
 
 Plataforma educativa PHP para gestionar laboratorios, sesiones y paneles de estudiante/profesor/administrador.
@@ -22,7 +22,7 @@ Ofrecer una solución web para administrar laboratorios de computación y activi
 1) Clonar e instalar dependencias
 
 ```bash
-git clone https://github.com/Fefox-glitch/test.git
+git clone https://github.com/Fefox-glitch/algorix-plataforma-educacional.git
 cd Algorix-main
 composer install
 ```
