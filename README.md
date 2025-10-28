@@ -23,7 +23,7 @@ Ofrecer una solución web para administrar laboratorios de computación y activi
 
 ```bash
 git clone https://github.com/Fefox-glitch/algorix-plataforma-educacional.git
-cd Algorix-main
+cd algorix-plataforma-educacional
 composer install
 ```
 
@@ -76,6 +76,9 @@ Este repositorio integra GitHub Actions para:
    - GHCR: en `main` (`latest` y `sha`) y en tags `v*` (semver).
    - Docker Hub: opcional, habilitado si defines `vars.DOCKERHUB_REPO` y secretos `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN`.
 
+### Notas de Release
+- Detalles de `v0.1.0`: consulta `docs/RELEASE_NOTES_v0.1.0.md`.
+
 ## Contenedores (Docker)
 
 - Imagen `php:8.2-fpm` con Composer. Nginx se configura con `docker/nginx/default.conf`.
@@ -91,7 +94,7 @@ docker build -t algorix:local .
   - Pull: `docker pull ghcr.io/Fefox-glitch/algorix:latest`
   - Versionado: `docker pull ghcr.io/Fefox-glitch/algorix:vX.Y.Z`
 - Docker Hub (si está configurado):
-  - Define `Settings > Variables > Actions`: `DOCKERHUB_REPO` (por ejemplo `fefoxglitch/algorix`).
+  - Define `Settings > Variables > Actions`: `DOCKERHUB_REPO` (por ejemplo `rsfefox/algorix`).
   - Define `Settings > Secrets and variables > Actions`: `DOCKERHUB_USERNAME` y `DOCKERHUB_TOKEN`.
   - Pull: `docker pull $DOCKERHUB_REPO:latest`
   - Repo: `https://hub.docker.com/repository/docker/rsfefox/algorix`

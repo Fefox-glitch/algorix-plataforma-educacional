@@ -19,3 +19,4 @@
 ### Notas
 - Si defines `BUILDX_CLOUD_ENDPOINT`, los jobs de publicación usarán `driver: cloud`; en caso contrario, usan el builder por defecto.
 - Para publicar en Docker Hub, configura: `vars.DOCKERHUB_REPO`, `secrets.DOCKERHUB_USERNAME`, `secrets.DOCKERHUB_TOKEN`.
+- Notas detalladas de la versión: `docs/RELEASE_NOTES_v0.1.0.md`.
