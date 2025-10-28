@@ -1,6 +1,6 @@
 # Algorix
 
-[![CI](https://img.shields.io/github/actions/workflow/status/Fefox-glitch/test/ci-cd.yml?branch=main&label=CI)](https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/Fefox-glitch/test/ci-cd.yml?branch=main&label=CI)](https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml) [Run workflow](https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml)
 [![Coverage](https://codecov.io/gh/Fefox-glitch/test/branch/main/graph/badge.svg)](https://codecov.io/gh/Fefox-glitch/test)
 [![GHCR](https://img.shields.io/badge/GHCR-Algorix-blue?logo=github)](https://github.com/Fefox-glitch/test/pkgs/container/algorix)
 [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-rsfefox%2Falgorix-2496ED?logo=docker)](https://hub.docker.com/repository/docker/rsfefox/algorix)
