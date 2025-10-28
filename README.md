@@ -1,99 +1,95 @@
 # Algorix
 
-Plataforma educativa para aprender programación de manera interactiva y efectiva.
+Plataforma educativa PHP para gestionar laboratorios, sesiones y paneles de estudiante/profesor/administrador.
 
-## Descripción
+## Objetivo del proyecto
 
-Algorix es una plataforma web educativa diseñada para ayudar a estudiantes a aprender programación a través de desafíos interactivos, cursos estructurados y retroalimentación en tiempo real. La plataforma incorpora elementos de gamificación y aprendizaje adaptativo para mejorar la experiencia educativa.
+Ofrecer una solución web para administrar laboratorios de computación y actividades educativas, con paneles dedicados (admin, student, teacher), integración con Supabase y utilidades para gestión de sesiones y recursos.
 
-## Características principales
+## Requisitos
 
-- 🎮 Desafíos interactivos de programación
-- 📚 Cursos estructurados por niveles
-- 📊 Seguimiento del progreso del estudiante
-- 🎯 Sistema de retroalimentación en tiempo real
-- 🌙 Modo oscuro/claro
-- 🔄 Funcionamiento offline (PWA)
-- 👥 Perfiles de estudiante y profesor
-- 📱 Diseño responsivo
+- `PHP 8.2+`
+- `Composer 2`
+- Extensiones: `curl`, `openssl`, `mbstring`, `zip`, `pdo_pgsql`
 
-## Tecnologías utilizadas
+## Configuración local
 
-- JavaScript (ES6+)
-- HTML5
-- CSS3
-- Jest (Testing)
-- Supabase (Base de datos)
-- PWA (Progressive Web App)
+1) Clonar e instalar dependencias
 
-## Instalación
+```bash
+git clone https://github.com/Fefox-glitch/test.git
+cd Algorix-main
+composer install
+```
 
-1. Clona el repositorio:
-\`\`\`bash
-git clone https://github.com/[usuario]/algorix.git
-cd algorix
-\`\`\`
+2) Variables de entorno
 
-2. Instala las dependencias:
-\`\`\`bash
-npm install
-\`\`\`
+- Copia `.env.example` a `.env` y completa `SUPABASE_URL`, `SUPABASE_KEY` y cualquier otra que corresponda.
 
-3. Configura las variables de entorno:
-   - Crea un archivo \`.env\` en la raíz del proyecto
-   - Añade las variables necesarias (ver \`.env.example\`)
+3) Servidor de desarrollo
 
-4. Inicia el servidor de desarrollo:
-\`\`\`bash
-npm start
-\`\`\`
+```bash
+# Opción recomendada con document root
+php -S localhost:8000 -t public router.php
 
-## Uso
+# Alternativa usando index.php
+php -S localhost:8000 index.php
+```
 
-1. Accede a la aplicación a través del navegador
-2. Crea una cuenta o inicia sesión
-3. Selecciona un curso o desafío para comenzar
-4. Sigue las instrucciones en pantalla
+4) Acceso
 
-## Tests
+- `http://localhost:8000/`
+- Panel admin: `http://localhost:8000/admin/dashboard`
 
-Para ejecutar los tests:
+## Comandos frecuentes
 
-\`\`\`bash
-# Ejecutar todos los tests
-npm test
-
-# Ejecutar tests con watch mode
-npm run test:watch
-
-# Ver cobertura de tests
-npm run test:coverage
-\`\`\`
+- Lint: `vendor/bin/phpcs --standard=phpcs.xml`
+- Análisis estático: `vendor/bin/phpstan analyse`
+- Tests: `vendor/bin/phpunit -c phpunit.xml.dist`
 
 ## Estructura del proyecto
 
-\`\`\`
-├── app/              # Núcleo de la aplicación
-├── controllers/      # Controladores MVC
-├── models/          # Modelos de datos
-├── services/        # Servicios de la aplicación
-├── views/           # Vistas y componentes UI
-├── styles/          # Archivos CSS
-└── __tests__/       # Tests
-\`\`\`
+```
+├── public/          # Punto de entrada público y estilos
+├── src/             # Código fuente (Core, Controllers, Services, Utils)
+├── views/           # Vistas (admin, student, teacher, auth)
+├── assets/js/       # JavaScript del frontend
+├── tests/           # Unit e integración (PHPUnit)
+├── docker/          # Configuración de Nginx para contenedor
+├── supabase/        # Migraciones y scripts relacionados
+└── .github/workflows/ci-cd.yml  # CI con lint/tests/artifacts
+```
+
+## CI/CD
+
+Este repositorio integra GitHub Actions para:
+- Lint PHP (PHPCS), análisis estático (PHPStan) y tests (PHPUnit) en cada PR.
+- Smoke tests de rutas levantando servidor PHP embebido.
+- Build de artefactos (ZIP) y build de imagen Docker (cacheada).
+- Escaneo de secretos (TruffleHog) en PRs.
+
+## Contenedores (Docker)
+
+- Imagen `php:8.2-fpm` con Composer. Nginx se configura con `docker/nginx/default.conf`.
+- Build de ejemplo (local):
+
+```bash
+docker build -t algorix:local .
+```
 
 ## Contribuir
 
-1. Fork el proyecto
-2. Crea una rama para tu característica (\`git checkout -b feature/nueva-caracteristica\`)
-3. Realiza tus cambios y haz commit (\`git commit -am 'Añade nueva característica'\`)
-4. Push a la rama (\`git push origin feature/nueva-caracteristica\`)
-5. Crea un Pull Request
+Consulta `CONTRIBUTING.md` para el flujo de ramas, estilo de commits y checklist de PRs.
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo \`LICENSE\` para más detalles.
+MIT. Ver `LICENSE`.
+
+## Seguridad
+
+- Evita commitear secretos; usa `.env` (no versionado).
+- El CI ejecuta TruffleHog para detectar fugas.
 
 ## Contacto
 
-Para soporte o consultas, por favor abre un issue en el repositorio.
+Abre un issue en GitHub para soporte o propuestas.
