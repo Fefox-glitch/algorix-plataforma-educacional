@@ -94,6 +94,11 @@ docker build -t algorix:local .
   - Define `Settings > Secrets and variables > Actions`: `DOCKERHUB_USERNAME` y `DOCKERHUB_TOKEN`.
   - Pull: `docker pull $DOCKERHUB_REPO:latest`
 
+#### Plataformas soportadas
+
+- Multi‑arquitectura: `linux/amd64` y `linux/arm64` (Buildx + QEMU).
+- Las publicaciones en `main`, tags `v*` y releases generan ambas arquitecturas.
+
 ## Contribuir
 
 Consulta `CONTRIBUTING.md` para el flujo de ramas, estilo de commits y checklist de PRs.
