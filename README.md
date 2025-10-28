@@ -121,6 +121,33 @@ docker buildx ls
 docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/Fefox-glitch/algorix:dev . --push
 ```
 
+### Publicación manual (Actions)
+
+Sin Docker local, puedes publicar imágenes vía GitHub Actions usando el flujo manual:
+
+- Navega a `Actions > PHP CI > Run workflow`.
+- Selecciona la rama que contiene el workflow (ej. `cleanup/structure`).
+- Inputs:
+  - `registry`: `dockerhub` (por defecto) o `ghcr`.
+  - `tag`: el tag a publicar (ej. `dev`, `v0.1.0`, `latest`).
+- Requisitos para Docker Hub:
+  - Variables: `DOCKERHUB_REPO=rsfefox/algorix`.
+  - Secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
+- Opcional: `BUILDX_CLOUD_ENDPOINT=rsfefox/algorix` para usar Buildx Cloud.
+
+Ejemplo:
+
+```
+# Actions > PHP CI > Run workflow
+branch: cleanup/structure
+registry: dockerhub
+tag: dev
+```
+
+Resultado:
+- Publicación multi‑arch (`linux/amd64`, `linux/arm64`) en `${DOCKERHUB_REPO}:dev`.
+- Si eliges `ghcr`, se publica en `ghcr.io/Fefox-glitch/algorix:dev`.
+
 ## Contribuir
 
 Consulta `CONTRIBUTING.md` para el flujo de ramas, estilo de commits y checklist de PRs.
