@@ -1,5 +1,9 @@
 # Algorix
 
+[![CI](https://img.shields.io/github/actions/workflow/status/Fefox-glitch/test/ci-cd.yml?branch=main&label=CI)](https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml)
+[![Coverage](https://codecov.io/gh/Fefox-glitch/test/branch/main/graph/badge.svg)](https://codecov.io/gh/Fefox-glitch/test)
+[![GHCR](https://img.shields.io/badge/GHCR-Algorix-blue?logo=github)](https://github.com/Fefox-glitch/test/pkgs/container/algorix)
+
 Plataforma educativa PHP para gestionar laboratorios, sesiones y paneles de estudiante/profesor/administrador.
 
 ## Objetivo del proyecto
