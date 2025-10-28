@@ -3,6 +3,7 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/Fefox-glitch/test/ci-cd.yml?branch=main&label=CI)](https://github.com/Fefox-glitch/test/actions/workflows/ci-cd.yml)
 [![Coverage](https://codecov.io/gh/Fefox-glitch/test/branch/main/graph/badge.svg)](https://codecov.io/gh/Fefox-glitch/test)
 [![GHCR](https://img.shields.io/badge/GHCR-Algorix-blue?logo=github)](https://github.com/Fefox-glitch/test/pkgs/container/algorix)
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-rsfefox%2Falgorix-2496ED?logo=docker)](https://hub.docker.com/repository/docker/rsfefox/algorix)
 
 Plataforma educativa PHP para gestionar laboratorios, sesiones y paneles de estudiante/profesor/administrador.
 
@@ -93,6 +94,7 @@ docker build -t algorix:local .
   - Define `Settings > Variables > Actions`: `DOCKERHUB_REPO` (por ejemplo `fefoxglitch/algorix`).
   - Define `Settings > Secrets and variables > Actions`: `DOCKERHUB_USERNAME` y `DOCKERHUB_TOKEN`.
   - Pull: `docker pull $DOCKERHUB_REPO:latest`
+  - Repo: `https://hub.docker.com/repository/docker/rsfefox/algorix`
 
 #### Plataformas soportadas
 

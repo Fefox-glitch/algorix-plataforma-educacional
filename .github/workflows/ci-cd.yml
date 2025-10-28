@@ -21,7 +21,7 @@ on:
         options:
           - ghcr
           - dockerhub
-        default: ghcr
+        default: dockerhub
 
 jobs:
   php-lint-and-smoke:
