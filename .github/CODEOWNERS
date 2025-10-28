@@ -1,0 +1,10 @@
+# Code owners para revisión automática de PRs
+# Formato: ruta  @usuario
+
+* @Fefox-glitch
+src/ @Fefox-glitch
+views/ @Fefox-glitch
+public/ @Fefox-glitch
+assets/ @Fefox-glitch
+styles/ @Fefox-glitch
+tests/ @Fefox-glitch
