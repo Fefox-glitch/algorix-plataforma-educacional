@@ -22,13 +22,13 @@
   })();
 
   function hideAllSections(){
-    document.querySelectorAll('.section').forEach(function(s){ s.style.display = 'none'; });
+    document.querySelectorAll('.admin-content section').forEach(function(s){ s.style.display = 'none'; s.classList.remove('active'); });
   }
 
   function showSection(id){
     hideAllSections();
     var el = document.getElementById(id);
-    if (el) { el.style.display = 'block'; }
+    if (el) { el.style.display = 'block'; el.classList.add('active'); }
     // actualizar estado activo en la barra lateral
     navItems.forEach(function(n){ n.classList.remove('active'); });
     var target = Array.prototype.find.call(navItems, function(n){ return n.getAttribute('data-section') === id; });
@@ -36,14 +36,26 @@
     try { history.replaceState(null, '', '#' + id); } catch(_) {}
   }
 
-  // Añadir manejadores de clic para cada opción del menú lateral
+  // Añadir manejadores de clic para cada opción del menú lateral (compatibilidad)
   navItems.forEach(function(a){
     a.addEventListener('click', function(e){
       e.preventDefault();
       var id = a.getAttribute('data-section');
-      if (id) { showSection(id); }
+      if (id) { window.showSection ? window.showSection(id) : showSection(id); }
     });
   });
+
+  // Delegación de eventos en la barra lateral (robusto ante contenido dinámico)
+  var adminNav = document.querySelector('.admin-nav');
+  if (adminNav) {
+    adminNav.addEventListener('click', function(e){
+      var link = e.target.closest('.nav-item[data-section]');
+      if (!link) return;
+      e.preventDefault();
+      var id = link.getAttribute('data-section');
+      if (id) { window.showSection ? window.showSection(id) : showSection(id); }
+    });
+  }
 
   // Map de paneles avanzados -> sección de destino
   var panelMap = {
@@ -67,7 +79,7 @@
     try { history.replaceState(null, '', '#' + key); } catch(_) {}
   };
 
-  window.goAdminSection = function(id){ showSection(id); };
+  window.goAdminSection = function(id){ window.showSection ? window.showSection(id) : showSection(id); };
 
   // Estado inicial
   (function init(){
@@ -82,10 +94,14 @@
   })();
 })();
 
-  // Utilidades de API
+  // Utilidades de API (respetan BASE_URL cuando la app corre en subruta)
+  function withBase(url){
+    var base = (window.BASE_URL || '').replace(/\/$/, '');
+    return (typeof url === 'string' && url.indexOf('/') === 0) ? (base + url) : url;
+  }
   async function apiGet(url){
     try {
-      const r = await fetch(url);
+      const r = await fetch(withBase(url));
       const j = await r.json();
       return { ok: r.ok, status: r.status, data: j.data || [], error: j.error || null };
     } catch(e){ return { ok:false, status:0, data:[], error:e?.message||'network' }; }
@@ -94,7 +110,7 @@
     try {
       const headers = { 'Content-Type': 'application/json' };
       if (window.CSRF_TOKEN) headers['X-CSRF-Token'] = window.CSRF_TOKEN;
-      const r = await fetch(url, { method:'POST', headers, body: JSON.stringify(body||{}) });
+      const r = await fetch(withBase(url), { method:'POST', headers, body: JSON.stringify(body||{}) });
       const j = await r.json();
       return { ok: r.ok, status: r.status, data: j.data || [], error: j.error || null };
     } catch(e){ return { ok:false, status:0, data:[], error:e?.message||'network' }; }
@@ -103,7 +119,7 @@
     try {
       const headers = { 'Content-Type': 'application/json' };
       if (window.CSRF_TOKEN) headers['X-CSRF-Token'] = window.CSRF_TOKEN;
-      const r = await fetch(url, { method:'PATCH', headers, body: JSON.stringify(body||{}) });
+      const r = await fetch(withBase(url), { method:'PATCH', headers, body: JSON.stringify(body||{}) });
       const j = await r.json();
       return { ok: r.ok, status: r.status, data: j.data || [], error: j.error || null };
     } catch(e){ return { ok:false, status:0, data:[], error:e?.message||'network' }; }
@@ -747,6 +763,7 @@
         var slist = Array.isArray(sessions.data) ? sessions.data : [];
         var activeList = slist.filter(function(s){ return !s.ended_at; });
         sessionsEl.textContent = activeList.length;
+        var listEl = document.getElementById('active-sessions-list');
         if (listEl) {
           if (!activeList.length) {
             listEl.innerHTML = '<div class="empty-state">Sin sesiones activas</div>';
@@ -778,7 +795,18 @@
   // Hook de navegación: cargar datos al mostrar secciones
   const originalShowSection = window.showSection;
   window.showSection = async function(sectionId){
-    document.querySelectorAll('.section').forEach(function(s){ s.classList.toggle('active', s.id === sectionId); });
+    // Mostrar/ocultar secciones de forma consistente (incluye inline style)
+    document.querySelectorAll('.admin-content section').forEach(function(s){
+      var isTarget = (s.id === sectionId);
+      s.classList.toggle('active', isTarget);
+      s.style.display = isTarget ? 'block' : 'none';
+    });
+    // Sincronizar estado activo del menú
+    document.querySelectorAll('.admin-nav .nav-item').forEach(function(n){
+      n.classList.toggle('active', n.getAttribute('data-section') === sectionId);
+    });
+    try { history.replaceState(null, '', '#' + sectionId); } catch(_) {}
+
     if (sectionId === 'overview') {
       await loadOverview();
       if (overviewTimer) { clearInterval(overviewTimer); }
@@ -792,5 +820,5 @@
     if (sectionId === 'teachers') { await loadTeachers(); }
     if (sectionId === 'actions') { await loadActions(); }
     if (sectionId === 'sessions') { await loadSessions(); }
-    if (sectionId === 'panel-ai-config') { await loadAiConfig(); }
+    if (sectionId === 'panel-ai-config') { await loadAIConfig(); }
   };

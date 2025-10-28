@@ -1,7 +1,8 @@
 <?php
+
 /**
  * Autoloader para cargar clases automáticamente siguiendo PSR-4
- * 
+ *
  * Este autoloader es compatible con PSR-4 y maneja correctamente los namespaces
  * para una mejor organización del código.
  */

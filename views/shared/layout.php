@@ -159,6 +159,7 @@
     </script>
     <script>
       window.CSRF_TOKEN = '<?php echo \App\Core\Security::generateCsrfToken(); ?>';
+      window.BASE_URL = '<?php echo rtrim(base_url(), '/') ; ?>';
     </script>
     <?php if (isset($userRole) && ($userRole === 'student' || $userRole === 'teacher')): ?>
     <?php

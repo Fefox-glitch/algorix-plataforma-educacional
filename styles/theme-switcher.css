@@ -74,7 +74,7 @@
 
 [data-theme="dark"] .theme-switch-inner {
     transform: translateX(0);
-    background-color: #ffffff; /* antes #1a1a1a, ahora visible en oscuro */
+    background-color: #ffffff; /* visible en oscuro */
 }
 
 [data-theme="dark"] .dark-icon {
@@ -107,16 +107,16 @@
 }
 
 [data-theme="dark"] {
-    --bg-primary: #212529;
-    --bg-secondary: #343a40;
-    --text-primary: #f8f9fa;
-    --text-secondary: #ced4da;
-    --border-color: #495057;
+    --bg-primary: #0f172a;
+    --bg-secondary: #111827;
+    --text-primary: #e5e7eb;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
     --accent-color: #4CAF50;
     --accent-hover: #45a049;
 
-    /* Fondo del body (modo oscuro) */
-    --app-bg: linear-gradient(135deg, #1a1c2c, #2a2d3e);
+    /* Fondo del body (modo oscuro) — evitar negro puro */
+    --app-bg: linear-gradient(135deg, #23314f, #3b4670);
 }
 
 /* Mostrar ambos iconos siempre; solo cambia el color por tema */

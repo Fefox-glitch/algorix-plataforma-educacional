@@ -899,6 +899,9 @@
   color: var(--text-primary);
 }
 .admin-content { display: block; width: 100%; }
+/* Asegurar visibilidad correcta de secciones en admin */
+.section { display: none; }
+.section.active { display: block; }
 
 /* Admin Preview Metrics Grid */
 .stats-grid {

@@ -10,11 +10,11 @@ $role = isset($user['role']) ? htmlspecialchars($user['role']) : 'student';
     <aside class="sidebar">
         <h3>Tu Navegación</h3>
         <nav class="student-nav">
-        <a href="/student/dashboard" class="nav-item active" data-section="home">Inicio</a>
-        <a href="/student/dashboard#progress" class="nav-item" data-section="progress">Mi Progreso</a>
-        <a href="/student/dashboard#basic-modules" class="nav-item" data-section="basic-modules">Módulos Básicos</a>
-        <a href="/student/game" class="nav-item" data-section="exercises">Mis Ejercicios</a>
-        <a href="/student/dashboard#messages" class="nav-item" data-section="messages">Mensajes</a>
+        <a href="<?php echo base_url('student/dashboard'); ?>" class="nav-item active" data-section="home">Inicio</a>
+        <a href="<?php echo base_url('student/dashboard#progress'); ?>" class="nav-item" data-section="progress">Mi Progreso</a>
+        <a href="<?php echo base_url('student/dashboard#basic-modules'); ?>" class="nav-item" data-section="basic-modules">Módulos Básicos</a>
+        <a href="<?php echo base_url('student/game'); ?>" class="nav-item" data-section="exercises">Mis Ejercicios</a>
+        <a href="<?php echo base_url('student/dashboard#messages'); ?>" class="nav-item" data-section="messages">Mensajes</a>
     </nav>
         <div class="helper-assistant">
             <h4 class="sidebar-section-title">Tu Asistente</h4>
@@ -169,7 +169,7 @@ $role = isset($user['role']) ? htmlspecialchars($user['role']) : 'student';
                             <p>Variables, tipos de datos y operadores</p>
                         </div>
                         <div class="module-status">Acceso activo</div>
-                        <a href="/student/game?module=fundamentos" class="btn btn-primary">Entrar</a>
+                        <a href="<?php echo base_url('student/game?module=fundamentos'); ?>" class="btn btn-primary">Entrar</a>
                     </div>
                     <div class="module-card unlocked">
                         <div class="module-icon">📘</div>
@@ -178,7 +178,7 @@ $role = isset($user['role']) ? htmlspecialchars($user['role']) : 'student';
                             <p>If/else, bucles for y while</p>
                         </div>
                         <div class="module-status">Acceso activo</div>
-                        <a href="/student/game?module=estructuras" class="btn btn-primary">Entrar</a>
+                        <a href="<?php echo base_url('student/game?module=estructuras'); ?>" class="btn btn-primary">Entrar</a>
                     </div>
                 </div>
 

@@ -16,8 +16,8 @@ if ($moduleSlug === 'fundamentos') {
     <aside class="sidebar">
         <h3>Tu Navegación</h3>
         <nav class="student-nav">
-            <a href="/student/game" class="nav-item active">Modo Juego</a>
-            <a href="/student/dashboard" class="nav-item">Inicio</a>
+            <a href="<?php echo base_url('student/game'); ?>" class="nav-item active">Modo Juego</a>
+            <a href="<?php echo base_url('student/dashboard'); ?>" class="nav-item">Inicio</a>
         </nav>
 
         <div class="helper-assistant">

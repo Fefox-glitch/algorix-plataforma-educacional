@@ -140,63 +140,14 @@ body {
     max-width: 1600px;
     margin: 0 auto;
     padding: 20px;
-    position: relative;
 }
 
-.main-header {
-    background: var(--bg-primary);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-    padding: 20px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid var(--border-color);
-}
-
-.logo-section {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.logo {
-    font-size: 32px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--primary-color), var(--friendly-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.institution-name {
-    font-size: 16px;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.friendly-badge {
-    background: linear-gradient(135deg, var(--friendly-color), #059669);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-/* Theme Switcher: reglas centralizadas en styles/theme-switcher.css */
-/* Bloque duplicado retirado para evitar solapamientos. */
-
-/* Pantalla del Juego Base */
-.game-screen {
-    background: var(--bg-primary);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    display: none;
-    border: 1px solid var(--border-color);
+/* Nuevo: Contenedor de contenido principal */
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
 }
 
 .game-header {

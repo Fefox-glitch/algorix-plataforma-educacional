@@ -7,27 +7,27 @@
               <span class="caret"></span> Menú
             </button>
             <div id="menu-group" class="collapse-group">
-              <a class="nav-item active" data-section="overview">📊 Resumen</a>
-              <a class="nav-item" data-section="labs">🖥️ Laboratorios</a>
-              <a class="nav-item" data-section="computers">💻 Computadoras</a>
-              <a class="nav-item" data-section="groups">👥 Grupos</a>
-              <a class="nav-item" data-section="teachers">👨‍🏫 Profesores</a>
-              <a class="nav-item" data-section="actions">⚡ Acciones</a>
-              <a class="nav-item" data-section="sessions">📅 Sesiones</a>
+              <a class="nav-item active" data-section="overview" href="<?php echo base_url('admin/dashboard#overview'); ?>" onclick="if(window.goAdminSection){ goAdminSection('overview'); return false; }">📊 Resumen</a>
+              <a class="nav-item" data-section="labs" href="<?php echo base_url('admin/dashboard#labs'); ?>" onclick="if(window.goAdminSection){ goAdminSection('labs'); return false; }">🖥️ Laboratorios</a>
+              <a class="nav-item" data-section="computers" href="<?php echo base_url('admin/dashboard#computers'); ?>" onclick="if(window.goAdminSection){ goAdminSection('computers'); return false; }">💻 Computadoras</a>
+              <a class="nav-item" data-section="groups" href="<?php echo base_url('admin/dashboard#groups'); ?>" onclick="if(window.goAdminSection){ goAdminSection('groups'); return false; }">👥 Grupos</a>
+              <a class="nav-item" data-section="teachers" href="<?php echo base_url('admin/dashboard#teachers'); ?>" onclick="if(window.goAdminSection){ goAdminSection('teachers'); return false; }">👨‍🏫 Profesores</a>
+              <a class="nav-item" data-section="actions" href="<?php echo base_url('admin/dashboard#actions'); ?>" onclick="if(window.goAdminSection){ goAdminSection('actions'); return false; }">⚡ Acciones</a>
+              <a class="nav-item" data-section="sessions" href="<?php echo base_url('admin/dashboard#sessions'); ?>" onclick="if(window.goAdminSection){ goAdminSection('sessions'); return false; }">📅 Sesiones</a>
             </div>
 
             <button class="sidebar-section-toggle collapsed" data-target="adv-group" style="margin-top:12px;">
               <span class="caret"></span> Panel Avanzado
             </button>
             <div id="adv-group" class="collapse-group" style="display:none;">
-              <a class="nav-item" data-section="panel-usuarios">👥 Gestión de Usuarios</a>
-              <a class="nav-item" data-section="panel-analytics">📈 Analytics Avanzado</a>
-              <a class="nav-item" data-section="panel-notas">🧮 Sistema de Notas</a>
-              <a class="nav-item" data-section="panel-exportacion">🗂️ Centro de Exportación</a>
-              <a class="nav-item" data-section="panel-codigos">🧩 Gestión de Códigos</a>
-              <a class="nav-item" data-section="panel-comunicacion">💬 Comunicación</a>
-              <a class="nav-item" data-section="panel-analytics-ia">🤖 Analytics IA</a>
-              <a class="nav-item" data-section="panel-ai-config">🛠️ Configuración IA</a>
+              <a class="nav-item" data-section="panel-usuarios" href="<?php echo base_url('admin/dashboard#panel-usuarios'); ?>" onclick="if(window.goAdminSection){ goAdminSection('panel-usuarios'); return false; }">👥 Gestión de Usuarios</a>
+              <a class="nav-item" data-section="panel-analytics" href="<?php echo base_url('admin/dashboard#panel-analytics'); ?>" onclick="if(window.goAdminSection){ goAdminSection('panel-analytics'); return false; }">📈 Analytics Avanzado</a>
+              <a class="nav-item" data-section="panel-notas" href="<?php echo base_url('admin/dashboard#panel-notas'); ?>" onclick="if(window.goAdminSection){ goAdminSection('panel-notas'); return false; }">🧮 Sistema de Notas</a>
+              <a class="nav-item" data-section="panel-exportacion" href="<?php echo base_url('admin/dashboard#panel-exportacion'); ?>" onclick="if(window.goAdminSection){ goAdminSection('panel-exportacion'); return false; }">🗂️ Centro de Exportación</a>
+              <a class="nav-item" data-section="panel-codigos" href="<?php echo base_url('admin/dashboard#panel-codigos'); ?>" onclick="if(window.goAdminSection){ goAdminSection('panel-codigos'); return false; }">🧩 Gestión de Códigos</a>
+              <a class="nav-item" data-section="panel-comunicacion" href="<?php echo base_url('admin/dashboard#panel-comunicacion'); ?>" onclick="if(window.goAdminSection){ goAdminSection('panel-comunicacion'); return false; }">💬 Comunicación</a>
+              <a class="nav-item" data-section="panel-analytics-ia" href="<?php echo base_url('admin/dashboard#panel-analytics-ia'); ?>" onclick="if(window.goAdminSection){ goAdminSection('panel-analytics-ia'); return false; }">🤖 Analytics IA</a>
+              <a class="nav-item" data-section="panel-ai-config" href="<?php echo base_url('admin/dashboard#panel-ai-config'); ?>" onclick="if(window.goAdminSection){ goAdminSection('panel-ai-config'); return false; }">🛠️ Configuración IA</a>
             </div>
           </nav>
         </aside>
@@ -340,7 +340,7 @@
       <h3>Usuarios (CSV)</h3>
       <p>Exporta el listado actual en formato CSV.</p>
       <a class="btn btn-primary" download="usuarios.csv" href="data:text/csv;base64,<?php echo $csvData; ?>">Descargar CSV</a>
-      <a class="btn btn-secondary" href="/storage/users.json" target="_blank">Ver JSON</a>
+      <a class="btn btn-secondary" href="<?php echo base_url('storage/users.json'); ?>" target="_blank">Ver JSON</a>
     </div>
   </div>
 </section>

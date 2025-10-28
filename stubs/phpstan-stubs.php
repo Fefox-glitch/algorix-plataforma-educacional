@@ -32,8 +32,11 @@ if (!defined('SUPABASE_KEY')) {
  * @param array<string,string> $filters Query filters
  * @return array{code:int, data:mixed, error:string|null}
  */
-function supabaseRequest(string $method, string $endpoint, ?array $data = null, array $filters = []): array
-{
+if (!function_exists('supabaseRequest')) {
+    function supabaseRequest(string $method, string $endpoint, ?array $data = null, array $filters = []): array
+    {
+        return ['code' => 200, 'data' => null, 'error' => null];
+    }
 }
 
 /**
@@ -41,26 +44,32 @@ function supabaseRequest(string $method, string $endpoint, ?array $data = null, 
  * @param string $path Relative path (e.g., 'auth/login')
  * @return void
  */
-function redirect(string $path): void
-{
+if (!function_exists('redirect')) {
+    function redirect(string $path): void
+    {
+    }
 }
 
 /**
  * Authentication helpers from runtime.
  * @return bool
  */
-function isAuthenticated(): bool
-{
-    return false;
+if (!function_exists('isAuthenticated')) {
+    function isAuthenticated(): bool
+    {
+        return false;
+    }
 }
 
 /**
  * @param string|array<int,string> $roles
  * @return bool
  */
-function hasRole($roles): bool
-{
-    return false;
+if (!function_exists('hasRole')) {
+    function hasRole($roles): bool
+    {
+        return false;
+    }
 }
 
 /**
@@ -68,8 +77,10 @@ function hasRole($roles): bool
  * @param string $role
  * @return void
  */
-function requireAuthRole(string $role): void
-{
+if (!function_exists('requireAuthRole')) {
+    function requireAuthRole(string $role): void
+    {
+    }
 }
 
 /**
@@ -78,9 +89,11 @@ function requireAuthRole(string $role): void
  * @param array<string,mixed> $data
  * @return string
  */
-function render_view(string $view, array $data = []): string
-{
-    return '';
+if (!function_exists('render_view')) {
+    function render_view(string $view, array $data = []): string
+    {
+        return '';
+    }
 }
 
 /**
@@ -90,8 +103,10 @@ function render_view(string $view, array $data = []): string
  * @param string|null $error
  * @return void
  */
-function json_response(int $code, $data = null, ?string $error = null): void
-{
+if (!function_exists('json_response')) {
+    function json_response(int $code, $data = null, ?string $error = null): void
+    {
+    }
 }
 
 /**
@@ -99,7 +114,9 @@ function json_response(int $code, $data = null, ?string $error = null): void
  * @param string $path
  * @return string
  */
-function base_url(string $path = ''): string
-{
-    return $path;
+if (!function_exists('base_url')) {
+    function base_url(string $path = ''): string
+    {
+        return $path;
+    }
 }

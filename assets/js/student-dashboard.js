@@ -28,7 +28,8 @@
 
       if (section === 'exercises') {
         // Redirige a Mis Ejercicios (modo juego)
-        return window.location.assign('/student/game');
+        var base = (window.BASE_URL || '').replace(/\/$/, '');
+        return window.location.assign(base + '/student/game');
       }
 
       e.preventDefault();
@@ -99,7 +100,8 @@
   // Inicializar según el hash actual
   var initialSection = (window.location.hash || '').replace('#','');
   if (initialSection === 'exercises') {
-    window.location.assign('/student/game');
+    var baseInit = (window.BASE_URL || '').replace(/\/$/, '');
+    window.location.assign(baseInit + '/student/game');
   } else {
     activateNav(initialSection || 'home');
     showSections(sectionMap[initialSection] || sectionMap.home);
