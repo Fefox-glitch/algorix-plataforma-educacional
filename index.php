@@ -16,7 +16,9 @@ $prefix = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
 $path = $rawPath;
 if ($prefix !== '' && strpos($rawPath, $prefix . '/') === 0) {
     $path = substr($rawPath, strlen($prefix));
-    if ($path === '') { $path = '/'; }
+    if ($path === '') {
+        $path = '/';
+    }
 }
 // Rutas Auth
 if ($path === '/auth/login') {
@@ -310,7 +312,9 @@ $__prefix = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
 $__normalized = $path;
 if ($__prefix !== '' && strpos($path, $__prefix . '/') === 0) {
     $__normalized = substr($path, strlen($__prefix));
-    if ($__normalized === '') { $__normalized = '/'; }
+    if ($__normalized === '') {
+        $__normalized = '/';
+    }
 }
 if (strpos($__normalized, '/styles/') === 0) {
     $cssPath = __DIR__ . $__normalized;
