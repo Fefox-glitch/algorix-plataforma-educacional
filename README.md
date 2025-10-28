@@ -71,6 +71,9 @@ Este repositorio integra GitHub Actions para:
 - Smoke tests de rutas levantando servidor PHP embebido.
 - Build de artefactos (ZIP) y build de imagen Docker (cacheada).
 - Escaneo de secretos (TruffleHog) en PRs.
+ - Publicación de imágenes:
+   - GHCR: en `main` (`latest` y `sha`) y en tags `v*` (semver).
+   - Docker Hub: opcional, habilitado si defines `vars.DOCKERHUB_REPO` y secretos `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN`.
 
 ## Contenedores (Docker)
 
@@ -80,6 +83,16 @@ Este repositorio integra GitHub Actions para:
 ```bash
 docker build -t algorix:local .
 ```
+
+### Imágenes publicadas
+
+- GHCR:
+  - Pull: `docker pull ghcr.io/Fefox-glitch/algorix:latest`
+  - Versionado: `docker pull ghcr.io/Fefox-glitch/algorix:vX.Y.Z`
+- Docker Hub (si está configurado):
+  - Define `Settings > Variables > Actions`: `DOCKERHUB_REPO` (por ejemplo `fefoxglitch/algorix`).
+  - Define `Settings > Secrets and variables > Actions`: `DOCKERHUB_USERNAME` y `DOCKERHUB_TOKEN`.
+  - Pull: `docker pull $DOCKERHUB_REPO:latest`
 
 ## Contribuir
 
