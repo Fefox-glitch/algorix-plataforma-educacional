@@ -1,6 +1,6 @@
 # Guía de Contribución
 
-Gracias por tu interés en contribuir a Algorix. Este documento define el flujo de trabajo y estándares para mantener el proyecto saludable.
+Gracias por tu interés en contribuir a Algorix Plataforma Educacional. Este documento define el flujo de trabajo y estándares para mantener el proyecto saludable.
 
 ## Flujo de trabajo
 

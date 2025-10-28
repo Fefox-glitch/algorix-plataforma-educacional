@@ -1,4 +1,4 @@
-# Algorix - Configuración del Proyecto
+# Algorix Plataforma Educacional — Configuración del Proyecto
 
 ## Requisitos
 - PHP 8.3 (CLI) con extensiones: `curl`, `openssl`, `mbstring`, `zip`.
