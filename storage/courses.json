@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "title": "Curso Demo",
+        "teacher_id": "578ac19e-cbb2-48bb-97c0-122720c3e635"
+    },
+    {
+        "id": 2,
+        "title": "Curso Prácticas",
+        "teacher_id": "578ac19e-cbb2-48bb-97c0-122720c3e635"
+    }
+]

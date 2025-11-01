@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1001,
+        "title": "Variables básicas",
+        "module_id": 101
+    },
+    {
+        "id": 1002,
+        "title": "Condicionales",
+        "module_id": 101
+    }
+]

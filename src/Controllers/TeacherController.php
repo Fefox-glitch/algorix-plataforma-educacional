@@ -49,6 +49,10 @@ class TeacherController
 
     private function supabaseAvailable()
     {
+        // Si USE_DEMO_DATA está activo, forzar modo demo y desactivar Supabase
+        if (defined('USE_DEMO_DATA') && USE_DEMO_DATA === true) {
+            return false;
+        }
         return !empty(\SUPABASE_URL) && !empty(\SUPABASE_KEY);
     }
 
@@ -135,43 +139,105 @@ class TeacherController
         $students = 0;
         $teachers = 0;
         $sessions = 0;
+        $courses = 0;
+        $modules = 0;
         $exercises = 0;
+        $submissions = 0;
+        $gradesAvg = null;
+        $labs = 0;
+        $computersTotal = 0;
+        $computersOnline = 0;
 
-        if ($this->supabaseAvailable()) {
-            $resUsers = supabaseRequest('GET', 'users?select=id,role');
-            if ($resUsers['code'] >= 200 && is_array($resUsers['data'])) {
+        $offline = (isset($_ENV['OFFLINE_MODE']) && $_ENV['OFFLINE_MODE'] === 'true');
+        $hasSupabaseCreds = defined('SUPABASE_URL') && SUPABASE_URL && defined('SUPABASE_KEY') && SUPABASE_KEY;
+        $useSupabase = !$offline && $hasSupabaseCreds; // Ignora USE_DEMO_DATA para analytics
+
+        if ($useSupabase) {
+            // Usuarios: contar por rol
+            $resUsers = supabaseRequest('GET', 'users?select=id,role&limit=10000');
+            if (($resUsers['code'] ?? 0) >= 200 && is_array($resUsers['data'] ?? null)) {
                 foreach ($resUsers['data'] as $u) {
                     $r = $u['role'] ?? '';
-                    if ($r === 'student') {
-                        $students++;
-                    } elseif ($r === 'teacher') {
-                        $teachers++;
-                    }
+                    if ($r === 'student') { $students++; }
+                    elseif ($r === 'teacher') { $teachers++; }
                 }
             }
-            $resSess = supabaseRequest('GET', 'lab_sessions?select=id&limit=100');
-            if ($resSess['code'] >= 200 && is_array($resSess['data'])) {
+
+            // Sesiones: contar totales y activas (sin fin)
+            $resSess = supabaseRequest('GET', 'lab_sessions?select=id,ended_at&limit=10000');
+            if (($resSess['code'] ?? 0) >= 200 && is_array($resSess['data'] ?? null)) {
                 $sessions = count($resSess['data']);
             }
+
+            // Cursos, módulos, ejercicios, submissions
+            $resCourses = supabaseRequest('GET', 'courses?select=id&limit=10000');
+            if (($resCourses['code'] ?? 0) >= 200 && is_array($resCourses['data'] ?? null)) { $courses = count($resCourses['data']); }
+
+            $resModules = supabaseRequest('GET', 'modules?select=id&limit=10000');
+            if (($resModules['code'] ?? 0) >= 200 && is_array($resModules['data'] ?? null)) { $modules = count($resModules['data']); }
+
+            $resExercises = supabaseRequest('GET', 'exercises?select=id&limit=10000');
+            if (($resExercises['code'] ?? 0) >= 200 && is_array($resExercises['data'] ?? null)) { $exercises = count($resExercises['data']); }
+
+            $resSubs = supabaseRequest('GET', 'submissions?select=id&limit=10000');
+            if (($resSubs['code'] ?? 0) >= 200 && is_array($resSubs['data'] ?? null)) { $submissions = count($resSubs['data']); }
+
+            // Promedio de notas finales
+            $resGrades = supabaseRequest('GET', 'grades?select=final_grade&limit=10000');
+            if (($resGrades['code'] ?? 0) >= 200 && is_array($resGrades['data'] ?? null)) {
+                $sum = 0; $cnt = 0;
+                foreach ($resGrades['data'] as $g) { if (isset($g['final_grade'])) { $sum += (float)$g['final_grade']; $cnt++; } }
+                $gradesAvg = $cnt > 0 ? round($sum / $cnt, 2) : null;
+            }
+
+            // Estado de laboratorios y computadoras
+            $resLabs = supabaseRequest('GET', 'computer_labs?select=id&limit=10000');
+            if (($resLabs['code'] ?? 0) >= 200 && is_array($resLabs['data'] ?? null)) { $labs = count($resLabs['data']); }
+
+            $resComputers = supabaseRequest('GET', 'computers?select=id,status&limit=10000');
+            if (($resComputers['code'] ?? 0) >= 200 && is_array($resComputers['data'] ?? null)) {
+                $computersTotal = count($resComputers['data']);
+                foreach ($resComputers['data'] as $c) { if (($c['status'] ?? '') === 'online') { $computersOnline++; } }
+            }
         } else {
+            // Fallback offline: usar storage/*.json donde exista
             $users = $this->readJson(__DIR__ . '/../../storage/users.json');
             foreach ($users as $u) {
                 $r = $u['role'] ?? '';
-                if ($r === 'student') {
-                    $students++;
-                } elseif ($r === 'teacher') {
-                    $teachers++;
-                }
+                if ($r === 'student') { $students++; }
+                elseif ($r === 'teacher') { $teachers++; }
+            }
+
+            $coursesJson = $this->readJson(__DIR__ . '/../../storage/courses.json');
+            $modulesJson = $this->readJson(__DIR__ . '/../../storage/modules.json');
+            $exercisesJson = $this->readJson(__DIR__ . '/../../storage/exercises.json');
+            $gradesJson = $this->readJson(__DIR__ . '/../../storage/grades.json');
+            $sessionsJson = $this->readJson(__DIR__ . '/../../storage/sessions.json');
+
+            $courses = is_array($coursesJson) ? count($coursesJson) : 0;
+            $modules = is_array($modulesJson) ? count($modulesJson) : 0;
+            $exercises = is_array($exercisesJson) ? count($exercisesJson) : 0;
+            $sessions = is_array($sessionsJson) ? count($sessionsJson) : 0;
+
+            if (is_array($gradesJson)) {
+                $sum = 0; $cnt = 0;
+                foreach ($gradesJson as $g) { if (isset($g['final_grade'])) { $sum += (float)$g['final_grade']; $cnt++; } }
+                $gradesAvg = $cnt > 0 ? round($sum / $cnt, 2) : null;
             }
         }
-        $startCodes = $this->readJson(__DIR__ . '/../../storage/start_codes.json');
-        $exercises = is_array($startCodes) ? count($startCodes) : 0;
 
         echo json_encode(['data' => [
             'students_count' => $students,
             'teachers_count' => $teachers,
             'sessions_count' => $sessions,
+            'courses_count' => $courses,
+            'modules_count' => $modules,
             'exercises_count' => $exercises,
+            'submissions_count' => $submissions,
+            'grades_avg' => $gradesAvg,
+            'labs_count' => $labs,
+            'computers_total' => $computersTotal,
+            'computers_online' => $computersOnline,
         ]]);
     }
 
@@ -389,6 +455,24 @@ class TeacherController
         }
         $res = supabaseRequest('GET', $endpoint);
         $data = is_array($res['data'] ?? null) ? $res['data'] : [];
+        // Fallback si Supabase responde sin datos
+        if (!is_array($data) || count($data) === 0) {
+            $path = __DIR__ . '/../../storage/courses.json';
+            $courses = $this->readJson($path);
+            if (!is_array($courses) || count($courses) === 0) {
+                $courses = [
+                    ['id' => 1, 'title' => 'Curso Demo', 'teacher_id' => $teacherId],
+                    ['id' => 2, 'title' => 'Curso Prácticas', 'teacher_id' => $teacherId]
+                ];
+                $this->writeJson($path, $courses);
+            }
+            $filtered = array_values(array_filter($courses, function ($c) use ($teacherId) {
+                return !$teacherId || (($c['teacher_id'] ?? null) === $teacherId);
+            }));
+            $data = array_map(function ($c) {
+                return ['id' => $c['id'], 'title' => $c['title']];
+            }, $filtered);
+        }
         echo json_encode(['data' => $data]);
     }
 
@@ -443,12 +527,55 @@ class TeacherController
             return $v > 0;
         }));
         if (empty($modIds)) {
-            echo json_encode(['data' => []]);
+            // Fallback: usar módulos/ejercicios locales si el curso aún no tiene módulos en Supabase
+            $modsPath = __DIR__ . '/../../storage/modules.json';
+            $exPath = __DIR__ . '/../../storage/exercises.json';
+            $mods = $this->readJson($modsPath);
+            $exercises = $this->readJson($exPath);
+            if (!is_array($mods) || count($mods) === 0) {
+                $mods = [ ['id' => 101, 'title' => 'Introducción', 'course_id' => $courseId] ];
+                $this->writeJson($modsPath, $mods);
+            }
+            if (!is_array($exercises) || count($exercises) === 0) {
+                $exercises = [
+                    ['id' => 1001, 'title' => 'Variables básicas', 'module_id' => 101],
+                    ['id' => 1002, 'title' => 'Condicionales', 'module_id' => 101]
+                ];
+                $this->writeJson($exPath, $exercises);
+            }
+            $out = array_values(array_filter($exercises, function ($e) use ($mods) {
+                $modIdsLocal = array_column($mods, 'id');
+                return in_array($e['module_id'] ?? 0, $modIdsLocal, true);
+            }));
+            echo json_encode(['data' => array_map(function ($e) {
+                return ['id' => $e['id'],'title' => $e['title'],'module_id' => $e['module_id']];
+            }, $out)]);
             return;
         }
         $idList = implode(',', $modIds);
         $exRes = supabaseRequest('GET', 'exercises?select=id,title,module_id&module_id=in.(' . $idList . ')');
         $exercises = is_array($exRes['data'] ?? null) ? $exRes['data'] : [];
+        // Fallback si Supabase responde sin ejercicios
+        if (!is_array($exercises) || count($exercises) === 0) {
+            $modsPath = __DIR__ . '/../../storage/modules.json';
+            $exPath = __DIR__ . '/../../storage/exercises.json';
+            $mods = $this->readJson($modsPath);
+            $localExercises = $this->readJson($exPath);
+            if (!is_array($mods) || count($mods) === 0) {
+                $mods = [ ['id' => 101, 'title' => 'Introducción', 'course_id' => $courseId] ];
+                $this->writeJson($modsPath, $mods);
+            }
+            if (!is_array($localExercises) || count($localExercises) === 0) {
+                $localExercises = [
+                    ['id' => 1001, 'title' => 'Variables básicas', 'module_id' => 101],
+                    ['id' => 1002, 'title' => 'Condicionales', 'module_id' => 101]
+                ];
+                $this->writeJson($exPath, $localExercises);
+            }
+            $exercises = array_values(array_filter($localExercises, function ($e) use ($modIds) {
+                return in_array($e['module_id'] ?? 0, $modIds, true);
+            }));
+        }
         echo json_encode(['data' => $exercises]);
     }
 

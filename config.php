@@ -22,6 +22,8 @@ define('SUPABASE_URL', $_ENV['SUPABASE_URL'] ?? ($_ENV['VITE_SUPABASE_URL'] ?? '
 define('SUPABASE_KEY', $_ENV['SUPABASE_KEY'] ?? ($_ENV['VITE_SUPABASE_ANON_KEY'] ?? ''));
 // Nuevo: clave de service role para operaciones privilegiadas en el servidor
 define('SUPABASE_SERVICE_ROLE_KEY', $_ENV['SUPABASE_SERVICE_ROLE_KEY'] ?? ($_ENV['VITE_SUPABASE_SERVICE_ROLE_KEY'] ?? ''));
+// Bandera para usar datos de demostración en endpoints (modo demo de datos)
+define('USE_DEMO_DATA', (isset($_ENV['USE_DEMO_DATA']) && in_array(strtolower((string)$_ENV['USE_DEMO_DATA']), ['1','true','yes'], true)));
 // Application configuration
 define('APP_NAME', 'Algorix');
 define('APP_URL', 'http://localhost/algorix');

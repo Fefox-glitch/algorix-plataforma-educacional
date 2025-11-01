@@ -1,34 +1,85 @@
 <?php // Vista parcial: Panel de Profesor ?>
+<link rel="stylesheet" href="/styles/soft-ui-dashboard.css" />
+<link rel="stylesheet" href="/styles/perfect-scrollbar.min.css" />
 <!-- Hero banner movido al header global -->
 <div class="teacher-container">
-        <aside class="teacher-sidebar">
+        <aside class="teacher-sidebar sidenav">
             <div class="dashboard-card" style="background: var(--bg-primary); border: 2px solid var(--border-color); border-radius: var(--radius); padding: 20px;">
-                <h3>Menú</h3>
+                <h3 style="margin-bottom:10px">Panel</h3>
                 <nav class="teacher-nav" style="display:flex; flex-direction: column; gap:8px;">
-                    <a href="#" class="nav-item active" data-section="main-panel">Inicio</a>
-                    <a href="#" class="nav-item" data-section="my-groups">Mis Grupos</a>
-                    <a href="#" class="nav-item" data-section="lab-control">Laboratorios</a>
-                    <a href="#" class="nav-item" data-section="assignments">Asignaciones</a>
-                    <a href="#" class="nav-item" data-section="sessions">Historial</a>
-                    <hr style="border:0;border-top:1px solid var(--border-color);opacity:.6;" />
-                    <span style="font-size:.9rem;opacity:.8;">Panel Avanzado</span>
-                    <a href="#" class="nav-item" data-section="users">Gestión de Usuarios</a>
-                    <a href="#" class="nav-item" data-section="analytics">Analytics Avanzadas</a>
-                    <a href="#" class="nav-item" data-section="grades">Sistema de Notas</a>
-                    <a href="#" class="nav-item" data-section="export">Centro de Exportación</a>
-                    <a href="#" class="nav-item" data-section="code-management">Gestión de Códigos</a>
-                    <a href="#" class="nav-item" data-section="communications">Comunicación</a>
+                    <a href="#" class="nav-item active" data-section="main-panel">🏠 Panel</a>
+                    <a href="#" class="nav-item" data-section="assignments">📋 Asignaciones</a>
+                    <a href="#" class="nav-item" data-section="lab-control">🧪 Laboratorios</a>
+                    <a href="#" class="nav-item" data-section="users">👥 Usuarios</a>
+                    <a href="#" class="nav-item" data-section="sessions">🕒 Sesiones</a>
+                    <a href="#" class="nav-item" data-section="analytics">📊 Analítica</a>
+                    <a href="#" class="nav-item" data-section="grades">📈 Calificaciones</a>
+                    <a href="#" class="nav-item" data-section="export">📦 Exportaciones</a>
+                    <a href="#" class="nav-item" data-section="code-management">🧩 Código</a>
+                    <a href="#" class="nav-item" data-section="communications">📣 Comunicación</a>
                 </nav>
             </div>
         </aside>
 
-        <main class="teacher-content">
+        <main class="teacher-content main-content">
             <section id="main-panel" class="section active">
                 <div class="section-header">
                     <h1>Panel Principal</h1>
                 </div>
 
+                <div class="soft-toolbar">
+                    <input type="search" class="soft-search" placeholder="Buscar…" />
+                    <div class="soft-actions">
+                        <button class="btn btn-secondary">Guía</button>
+                        <button class="btn btn-primary">Acción rápida</button>
+                    </div>
+                </div>
 
+                <div class="overview-grid">
+                    <div class="soft-card accent-orange">
+                        <div class="soft-card-title">Estudiantes activos</div>
+                        <div id="overview-students" class="soft-card-value">—</div>
+                    </div>
+                    <div class="soft-card accent-blue">
+                        <div class="soft-card-title">Sesiones</div>
+                        <div id="overview-sessions" class="soft-card-value">—</div>
+                    </div>
+                    <div class="soft-card accent-dark">
+                        <div class="soft-card-title">Cursos</div>
+                        <div id="overview-courses" class="soft-card-value">—</div>
+                    </div>
+                    <div class="soft-card accent-purple">
+                        <div class="soft-card-title">Módulos</div>
+                        <div id="overview-modules" class="soft-card-value">—</div>
+                    </div>
+                </div>
+
+                <div class="panels-grid">
+                    <div class="panel-soft">
+                        <div class="panel-title">Estado de computadoras</div>
+                        <div class="progress-row">
+                            <div class="progress-label">Online</div>
+                            <div class="progress-bar">
+                                <div id="comp-progress-fill" class="progress-fill" style="width:0%"></div>
+                            </div>
+                            <div id="comp-progress-label" class="progress-percent">0%</div>
+                        </div>
+                        <div class="progress-stats">
+                            <span>Online: <strong id="comp-online">—</strong></span>
+                            <span>Total: <strong id="comp-total">—</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="panel-soft">
+                        <div class="panel-title">Proyectos</div>
+                        <ul id="projects-list" class="list-soft"></ul>
+                    </div>
+
+                    <div class="panel-soft">
+                        <div class="panel-title">Actividad reciente</div>
+                        <ul id="activity-list" class="list-soft"></ul>
+                    </div>
+                </div>
 
                 <!-- Panel de Control Avanzado removido: las opciones ahora están sólo en el menú lateral -->
             </section>
@@ -216,11 +267,19 @@
                 <div class="section-header">
                     <h1>Analytics Avanzadas</h1>
                 </div>
-                <p style="opacity:.8;">Panel de métricas básico.</p>
-                <div class="cards-grid">
-                    <div class="card"><h3>Total estudiantes</h3><div id="metric-students">—</div></div>
-                    <div class="card"><h3>Total profesores</h3><div id="metric-teachers">—</div></div>
-                    <div class="card"><h3>Sesiones recientes</h3><div id="metric-sessions">—</div></div>
+                <p style="opacity:.8;">Métricas en tiempo real (Supabase si está disponible).</p>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-icon">🎓</div><div class="stat-info"><div class="stat-value" id="metric-students">—</div><div class="stat-label">Estudiantes</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">👨‍🏫</div><div class="stat-info"><div class="stat-value" id="metric-teachers">—</div><div class="stat-label">Profesores</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">🕒</div><div class="stat-info"><div class="stat-value" id="metric-sessions">—</div><div class="stat-label">Sesiones</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-info"><div class="stat-value" id="metric-courses">—</div><div class="stat-label">Cursos</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-info"><div class="stat-value" id="metric-modules">—</div><div class="stat-label">Módulos</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">🧩</div><div class="stat-info"><div class="stat-value" id="metric-exercises">—</div><div class="stat-label">Ejercicios</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">📤</div><div class="stat-info"><div class="stat-value" id="metric-submissions">—</div><div class="stat-label">Submissions</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-info"><div class="stat-value" id="metric-grades-avg">—</div><div class="stat-label">Promedio</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">🧪</div><div class="stat-info"><div class="stat-value" id="metric-labs">—</div><div class="stat-label">Labs</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">💻</div><div class="stat-info"><div class="stat-value" id="metric-computers-online">—</div><div class="stat-label">Computadoras Online</div></div></div>
+                    <div class="stat-card"><div class="stat-icon">💻</div><div class="stat-info"><div class="stat-value" id="metric-computers-total">—</div><div class="stat-label">Computadoras Totales</div></div></div>
                 </div>
             </section>
 
@@ -251,10 +310,12 @@
                     </table>
                 </div>
                 <div class="cards-grid" style="margin-top:10px;">
-                    <div class="card"><h3>Promedio</h3><div id="grade-avg">—</div></div>
-                    <div class="card"><h3>Mínimo</h3><div id="grade-min">—</div></div>
-                    <div class="card"><h3>Máximo</h3><div id="grade-max">—</div></div>
-                    <div class="card"><h3>Registros</h3><div id="grade-count">—</div></div>
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-info"><div class="stat-value" id="grade-avg">—</div><div class="stat-label">Promedio</div></div></div>
+                        <div class="stat-card"><div class="stat-icon">⬇️</div><div class="stat-info"><div class="stat-value" id="grade-min">—</div><div class="stat-label">Mínimo</div></div></div>
+                        <div class="stat-card"><div class="stat-icon">⬆️</div><div class="stat-info"><div class="stat-value" id="grade-max">—</div><div class="stat-label">Máximo</div></div></div>
+                        <div class="stat-card"><div class="stat-icon">🧮</div><div class="stat-info"><div class="stat-value" id="grade-count">—</div><div class="stat-label">Registros</div></div></div>
+                    </div>
                 </div>
                 <hr style="margin:16px 0; opacity:.5;" />
                 <div class="section-header"><h2>Gestión Rápida de Notas (CRUD)</h2></div>
@@ -365,3 +426,6 @@
 
 
     <script src="/js/teacher-dashboard.js"></script>
+    <script defer src="/soft-ui-shim.js"></script>
+    <script defer src="/perfect-scrollbar.min.js"></script>
+    <script defer src="/soft-ui-dashboard.js"></script>

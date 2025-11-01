@@ -92,9 +92,41 @@
     const mtStudents = document.getElementById('metric-students');
     const mtTeachers = document.getElementById('metric-teachers');
     const mtSessions = document.getElementById('metric-sessions');
+    const mtCourses = document.getElementById('metric-courses');
+    const mtModules = document.getElementById('metric-modules');
+    const mtExercises = document.getElementById('metric-exercises');
+    const mtSubs = document.getElementById('metric-submissions');
+    const mtGradesAvg = document.getElementById('metric-grades-avg');
+    const mtLabs = document.getElementById('metric-labs');
+    const mtCompOnline = document.getElementById('metric-computers-online');
+    const mtCompTotal = document.getElementById('metric-computers-total');
+    const ovStudents = document.getElementById('overview-students');
+    const ovSessions = document.getElementById('overview-sessions');
+    const ovCourses = document.getElementById('overview-courses');
+    const ovModules = document.getElementById('overview-modules');
+    const compFill = document.getElementById('comp-progress-fill');
+    const compPct = document.getElementById('comp-progress-label');
+    const compOnline = document.getElementById('comp-online');
+    const compTotal = document.getElementById('comp-total');
     if(mtStudents) mtStudents.textContent = '…';
     if(mtTeachers) mtTeachers.textContent = '…';
     if(mtSessions) mtSessions.textContent = '…';
+    if(mtCourses) mtCourses.textContent = '…';
+    if(mtModules) mtModules.textContent = '…';
+    if(mtExercises) mtExercises.textContent = '…';
+    if(mtSubs) mtSubs.textContent = '…';
+    if(mtGradesAvg) mtGradesAvg.textContent = '…';
+    if(mtLabs) mtLabs.textContent = '…';
+    if(mtCompOnline) mtCompOnline.textContent = '…';
+    if(mtCompTotal) mtCompTotal.textContent = '…';
+    if(ovStudents) ovStudents.textContent = '…';
+    if(ovSessions) ovSessions.textContent = '…';
+    if(ovCourses) ovCourses.textContent = '…';
+    if(ovModules) ovModules.textContent = '…';
+    if(compFill) compFill.style.width = '0%';
+    if(compPct) compPct.textContent = '0%';
+    if(compOnline) compOnline.textContent = '—';
+    if(compTotal) compTotal.textContent = '—';
     try {
       const res = await fetch('/api/teacher/analytics', { headers: { 'Accept': 'application/json' }});
       if(!res.ok) throw new Error('HTTP '+res.status);
@@ -103,8 +135,71 @@
       if(mtStudents) mtStudents.textContent = d.students_count ?? '-';
       if(mtTeachers) mtTeachers.textContent = d.teachers_count ?? '-';
       if(mtSessions) mtSessions.textContent = d.sessions_count ?? '-';
+      if(mtCourses) mtCourses.textContent = d.courses_count ?? '-';
+      if(mtModules) mtModules.textContent = d.modules_count ?? '-';
+      if(mtExercises) mtExercises.textContent = d.exercises_count ?? '-';
+      if(mtSubs) mtSubs.textContent = d.submissions_count ?? '-';
+      if(mtGradesAvg) mtGradesAvg.textContent = (d.grades_avg ?? '-') ;
+      if(mtLabs) mtLabs.textContent = d.labs_count ?? '-';
+      if(mtCompOnline) mtCompOnline.textContent = d.computers_online ?? '-';
+      if(mtCompTotal) mtCompTotal.textContent = d.computers_total ?? '-';
+      if(ovStudents) ovStudents.textContent = d.students_count ?? '-';
+      if(ovSessions) ovSessions.textContent = d.sessions_count ?? '-';
+      if(ovCourses) ovCourses.textContent = d.courses_count ?? '-';
+      if(ovModules) ovModules.textContent = d.modules_count ?? '-';
+      const online = Number(d.computers_online || 0);
+      const total = Number(d.computers_total || 0);
+      const pct = total > 0 ? Math.round((online/total)*100) : 0;
+      if(compFill) compFill.style.width = pct + '%';
+      if(compPct) compPct.textContent = pct + '%';
+      if(compOnline) compOnline.textContent = isNaN(online)? '-' : online;
+      if(compTotal) compTotal.textContent = isNaN(total)? '-' : total;
     } catch (e) {
       console.error('updateAnalytics error', e);
+    }
+  }
+
+  async function loadProjects(){
+    const list = document.getElementById('projects-list');
+    if(!list) return;
+    list.innerHTML = '';
+    try {
+      const res = await fetch('/api/teacher/courses', { headers: { 'Accept': 'application/json' }});
+      const j = await res.json();
+      const courses = Array.isArray(j.data) ? j.data : [];
+      if(courses.length === 0){ list.innerHTML = '<li>No hay cursos</li>'; return; }
+      list.innerHTML = courses.slice(0,6).map(c => {
+        const title = c.title || ('Curso ' + c.id);
+        const members = c.members_count != null ? c.members_count : (c.students_count != null ? c.students_count : '—');
+        const budget = c.budget ? ('$'+c.budget) : 'No asignado';
+        const completion = c.completion != null ? (c.completion+'%') : '';
+        return `<li><span>${title}</span><span class="meta">${members} alumnos • ${budget} ${completion? '• '+completion : ''}</span></li>`;
+      }).join('');
+    } catch (e) {
+      list.innerHTML = '<li>Error al cargar cursos</li>';
+      console.error('loadProjects error', e);
+    }
+  }
+
+  async function loadActivity(){
+    const list = document.getElementById('activity-list');
+    if(!list) return;
+    list.innerHTML = '';
+    try {
+      const res = await fetch('/api/teacher/sessions', { headers: { 'Accept': 'application/json' }});
+      const j = await res.json();
+      const sessions = Array.isArray(j.data) ? j.data : [];
+      if(sessions.length === 0){ list.innerHTML = '<li>Sin actividad reciente</li>'; return; }
+      list.innerHTML = sessions.slice(0,8).map(s => {
+        const started = s.started_at ? new Date(s.started_at) : null;
+        const when = started ? started.toLocaleString() : '';
+        const note = s.notes || '';
+        const lab = s.lab_id || '';
+        return `<li><span>${when}</span><span class="meta">Lab ${lab} • ${note}</span></li>`;
+      }).join('');
+    } catch (e) {
+      list.innerHTML = '<li>Error al cargar actividad</li>';
+      console.error('loadActivity error', e);
     }
   }
 
@@ -257,6 +352,8 @@
     bindComm();
     bindCodeTools();
     updateAnalytics();
+    loadProjects();
+    loadActivity();
   }
 
   document.addEventListener('DOMContentLoaded', init);
@@ -666,6 +763,36 @@
   window.createGrade = createGrade;
   window.updateGrade = updateGrade;
   window.deleteGrade = deleteGrade;
+})();
+(function(){
+  // Inicialización de PerfectScrollbar en sidebar, contenido y listas
+  document.addEventListener('DOMContentLoaded', function(){
+    try {
+      if (typeof window.PerfectScrollbar === 'function') {
+        var targets = [
+          { sel: '.main-content', opts: { wheelPropagation: true } },
+          { sel: '.sidenav', opts: { suppressScrollX: true } },
+          { sel: '#projects-list', opts: { suppressScrollX: true } },
+          { sel: '#activity-list', opts: { suppressScrollX: true } },
+          { sel: '#teacher-sessions-container', opts: { wheelPropagation: true } },
+          { sel: '#lab-computers-container', opts: { wheelPropagation: true } },
+          { sel: '#grades .table-container', opts: { wheelPropagation: true, suppressScrollX: true } }
+        ];
+        targets.forEach(function(t){
+          var el = document.querySelector(t.sel);
+          if (el && !el.__psInstance) {
+            try {
+              el.__psInstance = new PerfectScrollbar(el, t.opts || {});
+            } catch (e) {
+              console.warn('PerfectScrollbar init failed for', t.sel, e);
+            }
+          }
+        });
+      }
+    } catch (err) {
+      console.warn('PerfectScrollbar not initialized', err);
+    }
+  });
 })();
 (function(){
   // Control de Laboratorio: cargar computadoras y ejecutar acciones

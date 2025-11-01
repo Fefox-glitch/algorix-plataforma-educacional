@@ -354,9 +354,58 @@
     animation: fadeInUp 0.3s ease;
 }
 
+.panel,
+.card,
+.panel-card,
+.profile-card,
+.results-panel,
+.advanced-control,
+.admin-dashboard,
+.computer-card {
+    background: var(--panel-bg);
+    border-color: var(--panel-border);
+    box-shadow: var(--panel-shadow);
+}
+
+.panel:hover,
+.card:hover,
+.panel-card:hover,
+.profile-card:hover,
+.results-panel:hover,
+.advanced-control:hover,
+.admin-dashboard:hover,
+.computer-card:hover {
+    background: var(--panel-hover);
+}
+
 .admin-dashboard {
     background: var(--bg-primary);
     border-radius: var(--radius);
     padding: 30px;
     border: 1px solid var(--border-color);
 }
+
+/* Stats grid (usable across admin, teacher, student) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.stat-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: var(--transition);
+}
+
+.stat-card:hover { box-shadow: var(--panel-shadow); border-color: var(--border-hover); }
+
+.stat-icon { font-size: 18px; opacity: .9; }
+.stat-info { display: flex; flex-direction: column; }
+.stat-value { font-weight: 800; font-size: 20px; color: var(--heading-color); }
+.stat-label { font-size: 12px; color: var(--text-secondary); }

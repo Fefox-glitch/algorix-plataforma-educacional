@@ -45,12 +45,26 @@
         <div class="offline-banner" role="status" aria-live="polite">
             <span class="icon" aria-hidden="true">!</span>
             <span class="text">Modo Offline activo: datos simulados (sin Supabase)</span>
+            <?php if (defined('USE_DEMO_DATA') && USE_DEMO_DATA === true): ?>
+                <span class="badge-demo" title="Demo de datos activo">Demo de datos activo</span>
+            <?php endif; ?>
             <a class="link" href="<?php echo base_url('test-connection.php'); ?>" target="_blank" rel="noopener">Probar conexión</a>
         </div>
         <style>
             .offline-banner{position:sticky;top:0;z-index:1000;background:#ffdd57;color:#111;padding:12px 16px;text-align:center;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;gap:12px;border-bottom:2px solid #e0b800}
             .offline-banner .icon{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid #c08a00;color:#c08a00;font-weight:800}
             .offline-banner .link{color:#0b5ed7;text-decoration:underline;font-weight:700}
+            .offline-banner .badge-demo{background:#2f855a;color:#fff;padding:4px 10px;border-radius:999px;font-weight:800;font-size:12px;border:1px solid #226b47}
+        </style>
+    <?php endif; ?>
+    <?php if ((!(isset($_ENV['OFFLINE_MODE']) && $_ENV['OFFLINE_MODE'] === 'true')) && defined('USE_DEMO_DATA') && USE_DEMO_DATA === true): ?>
+        <div class="demo-banner" role="status" aria-live="polite">
+            <span class="icon" aria-hidden="true">★</span>
+            <span class="text">Demo de datos activo: endpoints del profesor usan storage/*.json</span>
+        </div>
+        <style>
+            .demo-banner{position:sticky;top:0;z-index:1000;background:#4f86f7;color:#fff;padding:12px 16px;text-align:center;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;gap:12px;border-bottom:2px solid #3b6bd1}
+            .demo-banner .icon{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid #3b6bd1;color:#fff;font-weight:800}
         </style>
     <?php endif; ?>
     <!-- Header -->

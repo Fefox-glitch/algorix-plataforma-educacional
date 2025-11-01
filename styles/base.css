@@ -41,6 +41,12 @@
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --text: #1f2937;
+
+    /* Paneles (superficies de tarjetas/paneles) */
+    --panel-bg: var(--bg-secondary);
+    --panel-border: var(--border-color);
+    --panel-hover: var(--bg-hover);
+    --panel-shadow: var(--shadow);
     
     /* Roles */
     --student-color: #0ea5e9;
@@ -123,6 +129,12 @@
     --success-bg: rgba(34, 197, 94, 0.15);
     --success-text: #a7f3d0;
     --success-border: rgba(34, 197, 94, 0.35);
+
+    /* Paneles en modo oscuro */
+    --panel-bg: var(--bg-secondary);
+    --panel-border: var(--border-color);
+    --panel-hover: var(--bg-hover);
+    --panel-shadow: var(--shadow);
 }
 
 body {

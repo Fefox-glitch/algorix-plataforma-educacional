@@ -325,6 +325,16 @@ if (strpos($__normalized, '/styles/') === 0) {
     }
 }
 
+// Sirve JavaScript fuera de public directamente (soporta prefijo BASE_URL)
+if (strpos($__normalized, '/js/') === 0 || strpos($__normalized, '/assets/js/') === 0) {
+    $jsPath = __DIR__ . $__normalized;
+    if (file_exists($jsPath)) {
+        header('Content-Type: application/javascript; charset=utf-8');
+        readfile($jsPath);
+        exit;
+    }
+}
+
 // Static assets (cuando se usa php -S con docroot)
 $static = __DIR__ . $path;
 if (file_exists($static)) {

@@ -66,6 +66,17 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+/* Tipografía específica del header */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.main-header,
+.header-nav,
+.header-controls,
+.user-info,
+.logo {
+    font-family: 'Poppins', 'Inter', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+}
+
 /* Theme switcher visuals are defined in styles/theme-switcher.css */
 
 /* Badges */

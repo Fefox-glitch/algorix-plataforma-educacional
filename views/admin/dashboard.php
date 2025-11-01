@@ -215,6 +215,24 @@
       $ended = isset($s['ended_at']) ? $s['ended_at'] : (isset($s['fin']) ? $s['fin'] : null);
       if ($ended === null || $ended === '') $activeSessions[] = $s;
   }
+
+  // Cargar calificaciones desde storage para KPIs de Sistema de Notas
+  $gradesPath = __DIR__ . '/../../storage/grades.json';
+  $grades = [];
+  if (file_exists($gradesPath)) {
+      $gJson = json_decode(file_get_contents($gradesPath), true);
+      if (is_array($gJson)) { $grades = $gJson; }
+  }
+  $gradeValues = [];
+  foreach ($grades as $g) {
+      if (isset($g['final_grade']) && is_numeric($g['final_grade'])) {
+          $gradeValues[] = floatval($g['final_grade']);
+      }
+  }
+  $gradeCount = count($gradeValues);
+  $gradeAvg = $gradeCount > 0 ? (array_sum($gradeValues) / $gradeCount) : null;
+  $gradeMin = $gradeCount > 0 ? min($gradeValues) : null;
+  $gradeMax = $gradeCount > 0 ? max($gradeValues) : null;
 ?>
 <section id="panel-ai-config" class="section panel-section" style="display:none;">
   <div class="section-header"><h1>Configuración de IA</h1></div>
@@ -301,37 +319,167 @@
 </section>
 <section id="panel-analytics" class="section panel-section" style="display:none;">
   <div class="section-header"><h1>Analytics Avanzado</h1></div>
-  <div class="cards-grid">
+  <!-- KPIs compactos para vista más práctica -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">🖥️</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo $labsCount; ?></div>
+        <div class="stat-label">Laboratorios</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">💻</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo $computersCount; ?></div>
+        <div class="stat-label">Computadoras</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo $onlineComputersCount; ?></div>
+        <div class="stat-label">En Línea</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo $groupsCount; ?></div>
+        <div class="stat-label">Grupos</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo count($activeSessions); ?></div>
+        <div class="stat-label">Sesiones activas</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">👤</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo $totals['total']; ?></div>
+        <div class="stat-label">Usuarios</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🎓</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo $totals['students']; ?></div>
+        <div class="stat-label">Estudiantes</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">👨‍🏫</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo $totals['teachers']; ?></div>
+        <div class="stat-label">Profesores</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid" style="margin-top: 20px;">
     <div class="card">
       <h3>Distribución de Roles</h3>
       <p>Estudiantes: <?php echo $totals['students']; ?> | Profesores: <?php echo $totals['teachers']; ?> | Total: <?php echo $totals['total']; ?></p>
-      <?php
-        $ratio = $totals['total'] > 0 ? round(($totals['students'] / $totals['total']) * 100) : 0;
-      ?>
-      <div class="progress">
-        <div class="progress-bar" style="width: <?php echo $ratio; ?>%;"></div>
+      <?php $ratio = $totals['total'] > 0 ? round(($totals['students'] / $totals['total']) * 100) : 0; ?>
+      <div class="progress-indicator">
+        <div class="progress-fill" style="width: <?php echo $ratio; ?>%;"></div>
       </div>
       <small><?php echo $ratio; ?>% estudiantes</small>
     </div>
+
     <div class="card">
       <h3>Actividad reciente</h3>
       <?php if(empty($recentLogs)): ?>
         <p>Sin eventos registrados.</p>
       <?php else: ?>
-        <ul>
-          <?php foreach($recentLogs as $line): ?>
-            <li><?php echo htmlspecialchars($line); ?></li>
-          <?php endforeach; ?>
-        </ul>
+        <table class="table">
+          <thead><tr><th>#</th><th>Evento</th></tr></thead>
+          <tbody>
+            <?php $i=1; foreach($recentLogs as $line): ?>
+              <tr><td><?php echo $i++; ?></td><td><?php echo htmlspecialchars($line); ?></td></tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
       <?php endif; ?>
     </div>
+  </div>
+
+  <div class="section-header" style="margin-top: 24px;"><h2>Estado por Laboratorio</h2></div>
+  <div class="cards-grid">
+    <?php if (empty($labComputerStats)): ?>
+      <div class="card"><p>No hay datos de laboratorios y computadoras en storage.</p></div>
+    <?php else: ?>
+      <?php foreach ($labComputerStats as $labId => $info): ?>
+        <?php $pct = ($info['total']>0) ? round(($info['online']/$info['total'])*100) : 0; ?>
+        <div class="card">
+          <h3><?php echo htmlspecialchars($info['name']); ?></h3>
+          <p>Total: <?php echo $info['total']; ?> | En línea: <?php echo $info['online']; ?> | Fuera de línea: <?php echo $info['offline']; ?></p>
+          <div class="progress-indicator"><div class="progress-fill" style="width: <?php echo $pct; ?>%;"></div></div>
+          <small><?php echo $pct; ?>% en línea</small>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
   </div>
 </section>
 <section id="panel-notas" class="section panel-section" style="display:none;">
   <div class="section-header"><h1>Sistema de Notas</h1></div>
-  <p class="section-desc">
-    <?php echo $totals['students'] > 0 ? 'Aún no hay calificaciones registradas.' : 'No hay estudiantes en el sistema.'; ?>
-  </p>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">⭐</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo ($gradeAvg === null ? '—' : number_format($gradeAvg, 2)); ?></div>
+        <div class="stat-label">Promedio</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⬇️</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo ($gradeMin === null ? '—' : number_format($gradeMin, 2)); ?></div>
+        <div class="stat-label">Mínimo</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⬆️</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo ($gradeMax === null ? '—' : number_format($gradeMax, 2)); ?></div>
+        <div class="stat-label">Máximo</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🧮</div>
+      <div class="stat-info">
+        <div class="stat-value"><?php echo $gradeCount; ?></div>
+        <div class="stat-label">Registros</div>
+      </div>
+    </div>
+  </div>
+  <?php if ($gradeCount === 0): ?>
+    <p class="section-desc">No hay calificaciones registradas en storage.</p>
+  <?php else: ?>
+    <div class="cards-grid" style="margin-top: 12px;">
+      <div class="card">
+        <h3>Últimas calificaciones</h3>
+        <table class="table">
+          <thead><tr><th>ID</th><th>Alumno</th><th>Curso</th><th>Módulo</th><th>Final</th><th>Actualizado</th></tr></thead>
+          <tbody>
+            <?php foreach(array_slice(array_reverse($grades), 0, 10) as $g): ?>
+              <tr>
+                <td><?php echo htmlspecialchars($g['id'] ?? ''); ?></td>
+                <td><?php echo htmlspecialchars($g['user_id'] ?? ''); ?></td>
+                <td><?php echo htmlspecialchars($g['course_id'] ?? ''); ?></td>
+                <td><?php echo htmlspecialchars($g['module_id'] ?? ''); ?></td>
+                <td><?php echo htmlspecialchars(isset($g['final_grade']) ? number_format($g['final_grade'],2) : ''); ?></td>
+                <td><?php echo htmlspecialchars($g['updated_at'] ?? ''); ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <?php endif; ?>
 </section>
 <section id="panel-exportacion" class="section panel-section" style="display:none;">
   <div class="section-header"><h1>Centro de Exportación</h1></div>

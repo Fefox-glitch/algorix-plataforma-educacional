@@ -861,3 +861,40 @@
 .section.active { display: block; }
 
 .advanced-card[data-section] { cursor: pointer; }
+/* Grid de computadoras de laboratorio: 4 por fila */
+#lab-computers-container { max-height: 60vh; overflow-y: auto; }
+.computers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+.computer-card {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.computer-card:hover { background: var(--bg-hover); box-shadow: var(--shadow); }
+.computer-card .title { font-weight: 700; color: var(--text-primary); margin: 4px 0; }
+.computer-card .meta,
+.computer-card .status,
+.computer-card .last,
+.computer-card .select { color: var(--text-secondary); font-size: 12px; }
+
+/* Acentos por estado */
+.computer-card[data-status="online"] { border-left: 4px solid var(--success); }
+.computer-card[data-status="offline"] { border-left: 4px solid var(--error); }
+.computer-card[data-status="maintenance"] { border-left: 4px solid var(--warning); }
+
+/* Responsivo: reducir columnas en pantallas más pequeñas */
+@media (max-width: 1200px) {
+    .computers-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+    .computers-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+    .computers-grid { grid-template-columns: 1fr; }
+}

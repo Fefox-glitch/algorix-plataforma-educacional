@@ -949,9 +949,64 @@
 /* Labs Status Grid */
 .labs-status .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* Fijar 4 columnas por fila para la vista de laboratorios */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
+
+/* Grid de tarjetas para listas de Laboratorios y Grupos (4 por fila) */
+#labs-container.cards-grid,
+#groups-container.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Tarjetas cómodas para Labs y Grupos */
+#labs-container .card,
+#groups-container .card {
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 180px;
+  transition: background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+#labs-container .card:hover,
+#groups-container .card:hover {
+  background: var(--bg-secondary);
+  border-color: var(--friendly-color);
+  box-shadow: var(--shadow);
+}
+
+#labs-container .card h3,
+#groups-container .card h3 {
+  margin: 0 0 6px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+#labs-container .card p,
+#groups-container .card p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+#labs-container .card .card-actions,
+#groups-container .card .card-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+}
+
+#labs-container .card .card-actions .btn,
+#groups-container .card .card-actions .btn { flex: 1; }
 
 .labs-status .card {
   background: var(--bg-primary);
